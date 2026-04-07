@@ -1,0 +1,1 @@
+ScriptName LPAL:Looting:HarvestEffectScript

@@ -1,0 +1,344 @@
+ScriptName LPAL:Looting:LootValidationScript Extends Quest Hidden
+
+; ==============================================================
+; Ganja Panda’s Auto Loot (LPAL) – A Lazy Panda’s Looting Framework
+; Author: Ganja Panda
+; Version: 1.00
+; License: Copyright (c) 2026 PandaWorks Studios. All rights reserved.
+; Script: LootValidationScript
+; Type: Looting / Validation
+; Purpose:
+;   Central validation service for LPAL looting decisions.
+;   Determines whether a loot reference is valid and allowed
+;   for processing under current LPAL settings.
+;
+; Responsibilities:
+;   - Validate whether loot may be processed
+;   - Block quest items
+;   - Check protected source references
+;   - Check owned-area looting rules
+;   - Check stealing/ownership rules
+;   - Check player availability
+;   - Check object load/disable/delete state
+;   - Identify corpse references
+;   - Reject already-looted containers/corpses
+;
+; Non-Responsibilities:
+;   - No ownership mutation
+;   - No unlocking
+;   - No transfer logic
+;   - No destination resolution
+; ==============================================================
+
+; ==============================================================
+; Properties
+; ==============================================================
+
+LPAL:Core:LoggerScript Property Logger Auto Const
+
+LocationAlias Property LodgeLocation Auto Const
+Keyword Property LocTypeOutpost Auto Const
+Keyword Property LocTypePlayerHouse Auto Const
+
+; ==============================================================
+; Public API
+; ==============================================================
+
+Bool Function CanProcessLoot(ObjectReference akLoot, LPAL:Looting:LootEffectScript akEffectContext)
+	Actor akPlayerActor
+
+	LogDebug("LootValidation", "CanProcessLoot called.")
+
+	If akLoot == None
+		LogDebug("LootValidation", "Rejected: loot reference is None.")
+		Return False
+	EndIf
+
+	If akEffectContext == None
+		LogDebug("LootValidation", "Rejected: effect context is None.")
+		Return False
+	EndIf
+
+	If !IsLootLoaded(akLoot)
+		LogDebug("LootValidation", "Rejected: loot is not loaded or is disabled/deleted.")
+		Return False
+	EndIf
+
+	If IsQuestLoot(akLoot)
+		LogDebug("LootValidation", "Rejected: loot is marked as a quest item.")
+		Return False
+	EndIf
+
+	If !IsPlayerAvailable()
+		LogDebug("LootValidation", "Rejected: player is not available.")
+		Return False
+	EndIf
+
+	If IsProtectedSourceRef(akLoot, akEffectContext)
+		LogDebug("LootValidation", "Rejected: protected source reference.")
+		Return False
+	EndIf
+
+	If IsAlreadyLooted(akLoot, akEffectContext)
+		LogDebug("LootValidation", "Rejected: target is already marked as looted.")
+		Return False
+	EndIf
+
+	If IsInBlockedOwnedArea(akEffectContext)
+		LogDebug("LootValidation", "Rejected: blocked owned area.")
+		Return False
+	EndIf
+
+	If akEffectContext.IsShipContainerMode() && !CanLootShipSpaceContent(akEffectContext)
+		LogDebug("LootValidation", "Rejected: ship looting is disabled.")
+		Return False
+	EndIf
+
+	akPlayerActor = akEffectContext.GetPlayerActor()
+	If akPlayerActor != None
+		If akPlayerActor.WouldBeStealing(akLoot) && !akEffectContext.CanSteal()
+			LogDebug("LootValidation", "Rejected: WouldBeStealing and stealing is not allowed.")
+			Return False
+		EndIf
+	EndIf
+
+	If IsPlayerStealing(akLoot, akEffectContext) && !akEffectContext.CanSteal()
+		LogDebug("LootValidation", "Rejected: IsPlayerStealing and stealing is not allowed.")
+		Return False
+	EndIf
+
+	If !akEffectContext.IsContainerMode() && !akEffectContext.IsCorpseMode()
+		If akLoot.GetContainer() != None
+			LogDebug("LootValidation", "Rejected: loot still belongs to a live container reference.")
+			Return False
+		EndIf
+	EndIf
+
+	LogDebug("LootValidation", "Accepted: loot passed validation.")
+	Return True
+EndFunction
+
+Bool Function CanProcess(ObjectReference akLoot, ObjectReference akLooterRef, LPAL:Looting:LootEffectScript akEffectContext)
+	Return CanProcessLoot(akLoot, akEffectContext)
+EndFunction
+
+; ==============================================================
+; Validation Helpers
+; ==============================================================
+
+Bool Function CanLootShipSpaceContent(LPAL:Looting:LootEffectScript akEffectContext)
+	If akEffectContext == None
+		Return False
+	EndIf
+
+	If akEffectContext.LPAL_GLOB_Settings_AllowLooting_Ships == None
+		LogDebug("LootValidation", "CanLootShipSpaceContent: AllowLooting_Ships global missing. Defaulting to FALSE.")
+		Return False
+	EndIf
+
+	Return akEffectContext.LPAL_GLOB_Settings_AllowLooting_Ships.GetValueInt() != 0
+EndFunction
+
+Bool Function IsQuestLoot(ObjectReference akLoot)
+	If akLoot == None
+		Return False
+	EndIf
+
+	Return akLoot.IsQuestItem()
+EndFunction
+
+Bool Function IsProtectedSourceRef(ObjectReference akLoot, LPAL:Looting:LootEffectScript akEffectContext)
+	If akLoot == None || akEffectContext == None
+		Return False
+	EndIf
+
+	If akLoot == akEffectContext.GetLodgeSafeRef()
+		Return True
+	EndIf
+
+	; LPAL_CONT_Inventory_Reference is the Lazy Panda inventory container.
+	; It is not a protected home-ship source ref.
+	Return False
+EndFunction
+
+Bool Function IsAlreadyLooted(ObjectReference akLoot, LPAL:Looting:LootEffectScript akEffectContext)
+	Actor akActor
+	Keyword akLootedKeyword
+
+	If akLoot == None || akEffectContext == None
+		Return False
+	EndIf
+
+	akActor = akLoot as Actor
+	If akActor != None
+		akLootedKeyword = akEffectContext.GetCorpseLootedKeyword()
+	Else
+		akLootedKeyword = akEffectContext.GetContainerLootedKeyword()
+	EndIf
+
+	If akLootedKeyword == None
+		Return False
+	EndIf
+
+	Return akLoot.HasKeyword(akLootedKeyword)
+EndFunction
+
+Bool Function IsInBlockedOwnedArea(LPAL:Looting:LootEffectScript akEffectContext)
+	ObjectReference akPlayerRef
+	Location akPlayerLocation
+	Location akLodgeLocation
+
+	If akEffectContext == None
+		Return True
+	EndIf
+
+	akPlayerRef = akEffectContext.GetPlayerRef()
+	If akPlayerRef == None
+		LogDebug("LootValidation", "IsInBlockedOwnedArea: PlayerRef is None. Treating as blocked.")
+		Return True
+	EndIf
+
+	akPlayerLocation = akPlayerRef.GetCurrentLocation()
+	If akPlayerLocation == None
+		Return False
+	EndIf
+
+	; Player homes
+	If LocTypePlayerHouse != None
+		If akPlayerLocation.HasKeyword(LocTypePlayerHouse)
+			If akEffectContext.LPAL_GLOB_Settings_AllowLooting_PlayerHomes == None
+				LogDebug("LootValidation", "Blocked: player home looting global missing.")
+				Return True
+			EndIf
+
+			If akEffectContext.LPAL_GLOB_Settings_AllowLooting_PlayerHomes.GetValueInt() == 0
+				LogDebug("LootValidation", "Blocked: player home looting is disabled.")
+				Return True
+			EndIf
+		EndIf
+	EndIf
+
+	; Lodge
+	If LodgeLocation != None
+		akLodgeLocation = LodgeLocation.GetLocation()
+
+		If akLodgeLocation != None
+			If akPlayerRef.IsInLocation(akLodgeLocation)
+				If akEffectContext.LPAL_GLOB_Settings_AllowLooting_Lodge == None
+					LogDebug("LootValidation", "Blocked: lodge looting global missing.")
+					Return True
+				EndIf
+
+				If akEffectContext.LPAL_GLOB_Settings_AllowLooting_Lodge.GetValueInt() == 0
+					LogDebug("LootValidation", "Blocked: lodge looting is disabled.")
+					Return True
+				EndIf
+			EndIf
+		EndIf
+	EndIf
+
+	; Player outposts
+	If LocTypeOutpost != None
+		If akPlayerLocation.HasKeyword(LocTypeOutpost)
+			If akEffectContext.LPAL_GLOB_Settings_AllowLooting_Outposts == None
+				LogDebug("LootValidation", "Blocked: outpost looting global missing.")
+				Return True
+			EndIf
+
+			If akEffectContext.LPAL_GLOB_Settings_AllowLooting_Outposts.GetValueInt() == 0
+				LogDebug("LootValidation", "Blocked: outpost looting is disabled.")
+				Return True
+			EndIf
+		EndIf
+	EndIf
+
+	Return False
+EndFunction
+
+Bool Function IsOwned(ObjectReference akLoot, LPAL:Looting:LootEffectScript akEffectContext)
+	Actor akPlayerActor
+
+	If akLoot == None || akEffectContext == None
+		Return False
+	EndIf
+
+	akPlayerActor = akEffectContext.GetPlayerActor()
+	If akPlayerActor == None
+		Return False
+	EndIf
+
+	Return akPlayerActor.WouldBeStealing(akLoot) || IsPlayerStealing(akLoot, akEffectContext) || akLoot.HasOwner()
+EndFunction
+
+Bool Function IsPlayerStealing(ObjectReference akLoot, LPAL:Looting:LootEffectScript akEffectContext)
+	Faction akCurrentOwner
+
+	If akLoot == None || akEffectContext == None
+		Return False
+	EndIf
+
+	akCurrentOwner = akLoot.GetFactionOwner()
+
+	If akCurrentOwner == None
+		Return False
+	EndIf
+
+	If akEffectContext.PlayerFaction == None
+		Return True
+	EndIf
+
+	Return akCurrentOwner != akEffectContext.PlayerFaction
+EndFunction
+
+Bool Function IsPlayerAvailable()
+	Return Game.IsActivateControlsEnabled() || Game.IsLookingControlsEnabled()
+EndFunction
+
+Bool Function IsLootLoaded(ObjectReference akLoot)
+	If akLoot == None
+		Return False
+	EndIf
+
+	Return akLoot.Is3DLoaded() && !akLoot.IsDisabled() && !akLoot.IsDeleted()
+EndFunction
+
+Bool Function IsCorpse(ObjectReference akLoot)
+	Actor akActor = akLoot as Actor
+	Return akActor != None
+EndFunction
+
+; ==============================================================
+; Internal Logging Wrappers
+; ==============================================================
+
+Function LogInfo(String asSource, String asMessage)
+	If Logger
+		Logger.Info(asSource, asMessage)
+	Else
+		Debug.Trace("[LPAL][INFO][" + asSource + "] " + asMessage)
+	EndIf
+EndFunction
+
+Function LogWarn(String asSource, String asMessage)
+	If Logger
+		Logger.Warn(asSource, asMessage)
+	Else
+		Debug.Trace("[LPAL][WARN][" + asSource + "] " + asMessage)
+	EndIf
+EndFunction
+
+Function LogError(String asSource, String asMessage)
+	If Logger
+		Logger.Error(asSource, asMessage)
+	Else
+		Debug.Trace("[LPAL][ERROR][" + asSource + "] " + asMessage)
+	EndIf
+EndFunction
+
+Function LogDebug(String asSource, String asMessage)
+	If Logger
+		Logger.DebugLog(asSource, asMessage)
+	Else
+		Debug.Trace("[LPAL][DEBUG][" + asSource + "] " + asMessage)
+	EndIf
+EndFunction
