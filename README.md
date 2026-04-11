@@ -1,6 +1,6 @@
-# Lazy Panda Auto Loot Framework (LPAL)
+# PandaWorks Auto Loot (PWAL)
 
-LPAL is a performance-focused auto-looting system for Starfield.
+PWAL is a performance-focused auto-looting system for Starfield.
 
 It is a full rebuild of the original Lazy Panda mod, designed to provide reliable, configurable automatic looting without the instability and overhead of a single monolithic script.
 
@@ -12,7 +12,7 @@ The system allows players to:
 
 ## Development Status
 
-LPAL is currently under active development.
+PWAL is currently under active development.
 
 This repository reflects ongoing work on the framework and is not a final release version.
 
@@ -31,7 +31,7 @@ This timeline is aligned with the upcoming Starfield update and platform release
 
 ## Distribution
 
-LPAL will only be officially available through:
+PWAL will only be officially available through:
 - Bethesda Creation Club
 - This GitHub repository
 

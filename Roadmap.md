@@ -1,7 +1,7 @@
-LPAL Framework Overhaul Roadmap
+PWAL Framework Overhaul Roadmap
 Project Goal
 
-LPAL is a clean architectural rebuild of the original Lazy Panda looting system for Starfield.
+PWAL is a clean architectural rebuild of the original Lazy Panda looting system for Starfield.
 
 The goal is not to invent new behavior. The goal is to preserve the proven behavior of LZP while replacing the monolithic god-script structure with a modular, service-driven framework.
 
@@ -31,7 +31,7 @@ Papyrus does not invent configuration. It interprets CK-bound configuration and 
 
 4. Services own behavior
 
-LPAL is built so that:
+PWAL is built so that:
 
 effects interpret CK configuration
 scanners discover
@@ -275,7 +275,7 @@ After the main framework is stable:
 isolate real ship-looting requirements
 investigate working implementation
 obtain permission for external snippet reuse if needed
-reimplement cleanly in LPAL style
+reimplement cleanly in PWAL style
 integrate without contaminating the main ground/ship-interior pipeline
 Phase 4 — Final Framework Polish
 clean up remaining placeholder logic
@@ -292,7 +292,7 @@ If it works in LZP, transplant it.
 
 2. Improve structure, not behavior, unless a behavior change is intentional
 
-LPAL is an overhaul of architecture, not a random redesign of how the mod behaves.
+PWAL is an overhaul of architecture, not a random redesign of how the mod behaves.
 
 3. Always ask what CK is already telling the script
 
@@ -308,7 +308,7 @@ Especially ship-space looting.
 
 Current Working Direction
 
-The project is now past the “what is LPAL supposed to be?” stage.
+The project is now past the “what is PWAL supposed to be?” stage.
 
 The direction is clear:
 
@@ -320,4 +320,4 @@ no god script
 no patchwork fallback junk
 no fake replacement logic
 
-LPAL is now being built as the same functional looting system, rebuilt into the framework it should have been from the start.
+PWAL is now being built as the same functional looting system, rebuilt into the framework it should have been from the start.

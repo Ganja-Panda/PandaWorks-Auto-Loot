@@ -1,4 +1,4 @@
-Lazy Panda Auto Loot Framework (LPAL)
+PandaWorks Auto Loot (PWAL)
 Copyright (c) 2026 PandaWorks Studio. All rights reserved.
 
 This software and associated files (the "Software") are the exclusive property of PandaWorks Studio.
