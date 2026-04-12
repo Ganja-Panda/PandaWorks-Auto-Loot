@@ -1,1 +1,1 @@
-ScriptName LPAL:Looting:HarvestEffectScript
+ScriptName PWAL:Looting:HarvestEffectScript

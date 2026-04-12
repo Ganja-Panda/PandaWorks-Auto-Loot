@@ -1,14 +1,15 @@
-ScriptName LPAL:Looting:DestinationResolverScript extends Quest
+ScriptName PWAL:Looting:DestinationResolverScript extends Quest
 
 ; ==============================================================
-; Ganja Panda’s Auto Loot (LPAL) – A Lazy Panda’s Looting Framework
+; PandaWorks Studios - PandaWorks Auto Loot
 ; Author: Ganja Panda
 ; Version: 1.00
+; Created: 04-10-2026
 ; License: Copyright (c) 2026 PandaWorks Studios. All rights reserved.
 ; Script: DestinationResolverScript
 ; Type: Looting / Destination Resolution
 ; Purpose:
-;   Resolves LPAL loot destinations from user-controlled globals.
+;   Resolves PWAL loot destinations from user-controlled globals.
 ;   Reads the default destination global and optional category
 ;   destination override globals, then resolves the destination
 ;   code into a real runtime reference or void behavior.
@@ -31,23 +32,23 @@ ScriptName LPAL:Looting:DestinationResolverScript extends Quest
 ; Properties
 ; ==============================================================
 
-LPAL:Core:LoggerScript Property Logger Auto
+PWAL:Core:LoggerScript Property Logger Auto
 
 ; Default destination global
-GlobalVariable Property LPAL_GLOB_Settings_Destination Auto
+GlobalVariable Property PWAL_GLOB_Settings_Destination Auto
 
 ; Category destination globals
-GlobalVariable Property LPAL_GLOB_Settings_Destination_Armor Auto
-GlobalVariable Property LPAL_GLOB_Settings_Destination_Consumables Auto
-GlobalVariable Property LPAL_GLOB_Settings_Destination_Lore Auto
-GlobalVariable Property LPAL_GLOB_Settings_Destination_Misc Auto
-GlobalVariable Property LPAL_GLOB_Settings_Destination_Resources Auto
-GlobalVariable Property LPAL_GLOB_Settings_Destination_Weapons Auto
+GlobalVariable Property PWAL_GLOB_Settings_Destination_Armor Auto
+GlobalVariable Property PWAL_GLOB_Settings_Destination_Consumables Auto
+GlobalVariable Property PWAL_GLOB_Settings_Destination_Lore Auto
+GlobalVariable Property PWAL_GLOB_Settings_Destination_Misc Auto
+GlobalVariable Property PWAL_GLOB_Settings_Destination_Resources Auto
+GlobalVariable Property PWAL_GLOB_Settings_Destination_Weapons Auto
 
 ; Runtime refs / aliases filled in CK
 ObjectReference Property PlayerRef Auto Const
 ObjectReference Property LodgeSafeRef Auto Const
-ObjectReference Property LPAL_CONT_Inventory_Reference Auto Const
+ObjectReference Property PWAL_CONT_Inventory_Reference Auto Const
 ReferenceAlias Property PlayerHomeShip Auto Const
 
 ; ==============================================================
@@ -55,7 +56,7 @@ ReferenceAlias Property PlayerHomeShip Auto Const
 ; ==============================================================
 
 Int Property DEST_PLAYER = 1 Auto Const
-Int Property DEST_LAZYPANDA = 2 Auto Const
+Int Property DEST_GANJAPANDA = 2 Auto Const
 Int Property DEST_PLAYER_SHIP = 3 Auto Const
 Int Property DEST_LODGE_SAFE = 4 Auto Const
 Int Property DEST_VOID = 5 Auto Const
@@ -90,12 +91,12 @@ Int Function ResolveDestinationCode(Int aiCategoryCode = 0)
 EndFunction
 
 Int Function ResolveDefaultDestinationCode()
-	If LPAL_GLOB_Settings_Destination == None
-		LogError("DestinationResolver", "ResolveDefaultDestinationCode failed: LPAL_GLOB_Settings_Destination property is not filled.")
+	If PWAL_GLOB_Settings_Destination == None
+		LogError("DestinationResolver", "ResolveDefaultDestinationCode failed: PWAL_GLOB_Settings_Destination property is not filled.")
 		Return DEST_PLAYER
 	EndIf
 
-	Int iValue = LPAL_GLOB_Settings_Destination.GetValueInt()
+	Int iValue = PWAL_GLOB_Settings_Destination.GetValueInt()
 
 	If !IsValidDestinationCode(iValue)
 		LogWarn("DestinationResolver", "Default destination code is invalid. Falling back to DEST_PLAYER.")
@@ -139,8 +140,8 @@ ObjectReference Function ResolveDestinationRef(Int aiDestinationCode)
 		Return Game.GetPlayer()
 	EndIf
 
-	If aiDestinationCode == DEST_LAZYPANDA
-		Return LPAL_CONT_Inventory_Reference
+	If aiDestinationCode == DEST_GANJAPANDA
+		Return PWAL_CONT_Inventory_Reference
 	EndIf
 
 	If aiDestinationCode == DEST_PLAYER_SHIP
@@ -198,27 +199,27 @@ EndFunction
 
 GlobalVariable Function GetCategoryDestinationGlobal(Int aiCategoryCode)
 	If aiCategoryCode == CAT_ARMOR
-		Return LPAL_GLOB_Settings_Destination_Armor
+		Return PWAL_GLOB_Settings_Destination_Armor
 	EndIf
 
 	If aiCategoryCode == CAT_CONSUMABLES
-		Return LPAL_GLOB_Settings_Destination_Consumables
+		Return PWAL_GLOB_Settings_Destination_Consumables
 	EndIf
 
 	If aiCategoryCode == CAT_LORE
-		Return LPAL_GLOB_Settings_Destination_Lore
+		Return PWAL_GLOB_Settings_Destination_Lore
 	EndIf
 
 	If aiCategoryCode == CAT_MISC
-		Return LPAL_GLOB_Settings_Destination_Misc
+		Return PWAL_GLOB_Settings_Destination_Misc
 	EndIf
 
 	If aiCategoryCode == CAT_RESOURCES
-		Return LPAL_GLOB_Settings_Destination_Resources
+		Return PWAL_GLOB_Settings_Destination_Resources
 	EndIf
 
 	If aiCategoryCode == CAT_WEAPONS
-		Return LPAL_GLOB_Settings_Destination_Weapons
+		Return PWAL_GLOB_Settings_Destination_Weapons
 	EndIf
 
 	Return None
@@ -232,7 +233,7 @@ Function LogInfo(String asSource, String asMessage)
 	If Logger
 		Logger.Info(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][INFO][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][INFO][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -240,7 +241,7 @@ Function LogWarn(String asSource, String asMessage)
 	If Logger
 		Logger.Warn(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][WARN][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][WARN][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -248,7 +249,7 @@ Function LogError(String asSource, String asMessage)
 	If Logger
 		Logger.Error(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][ERROR][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][ERROR][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -256,6 +257,6 @@ Function LogDebug(String asSource, String asMessage)
 	If Logger
 		Logger.DebugLog(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][DEBUG][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][DEBUG][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction

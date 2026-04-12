@@ -1,14 +1,15 @@
-ScriptName LPAL:Looting:ContainerProcessorScript Extends Quest Hidden
+ScriptName PWAL:Looting:ContainerProcessorScript Extends Quest Hidden
 
 ; ==============================================================
-; Ganja Panda’s Auto Loot (LPAL) – A Lazy Panda’s Looting Framework
+; PandaWorks Studios - PandaWorks Auto Loot
 ; Author: Ganja Panda
 ; Version: 1.00
+; Created: 04-10-2026
 ; License: Copyright (c) 2026 PandaWorks Studios. All rights reserved.
 ; Script: ContainerProcessorScript
 ; Type: Looting / Container Processor Service
 ; Purpose:
-;   Handles container-specific loot processing for LPAL.
+;   Handles container-specific loot processing for PWAL.
 ;
 ; Responsibilities:
 ;   - Skip already-looted containers
@@ -24,13 +25,13 @@ ScriptName LPAL:Looting:ContainerProcessorScript Extends Quest Hidden
 ; ==============================================================
 
 Group FrameworkServices_AutoFill
-	LPAL:Core:LoggerScript Property Logger Auto Const Mandatory
-	LPAL:Looting:LootValidationScript Property LootValidation Auto Const Mandatory
-	LPAL:Looting:DestinationResolverScript Property DestinationResolver Auto Const Mandatory
-	LPAL:Looting:UnlockingServiceScript Property UnlockingService Auto Const Mandatory
+	PWAL:Core:LoggerScript Property Logger Auto Const Mandatory
+	PWAL:Looting:LootValidationScript Property LootValidation Auto Const Mandatory
+	PWAL:Looting:DestinationResolverScript Property DestinationResolver Auto Const Mandatory
+	PWAL:Looting:UnlockingServiceScript Property UnlockingService Auto Const Mandatory
 EndGroup
 
-Function ProcessContainer(ObjectReference akContainer, LPAL:Looting:LootEffectScript akEffectContext)
+Function ProcessContainer(ObjectReference akContainer, PWAL:Looting:LootEffectScript akEffectContext)
 	ObjectReference akDestinationRef
 
 	If akContainer == None
@@ -93,7 +94,7 @@ EndFunction
 ; Processing Paths
 ; ==============================================================
 
-Function ProcessTakeAllContainer(ObjectReference akContainer, ObjectReference akDestinationRef, LPAL:Looting:LootEffectScript akEffectContext)
+Function ProcessTakeAllContainer(ObjectReference akContainer, ObjectReference akDestinationRef, PWAL:Looting:LootEffectScript akEffectContext)
 	Bool bTransferOwnership
 
 	If akContainer == None || akDestinationRef == None || akEffectContext == None
@@ -108,7 +109,7 @@ Function ProcessTakeAllContainer(ObjectReference akContainer, ObjectReference ak
 	LogDebug("ContainerProcessor", "ProcessTakeAllContainer transferred all contents.")
 EndFunction
 
-Function ProcessFilteredContainerItems(ObjectReference akContainer, ObjectReference akDestinationRef, LPAL:Looting:LootEffectScript akEffectContext)
+Function ProcessFilteredContainerItems(ObjectReference akContainer, ObjectReference akDestinationRef, PWAL:Looting:LootEffectScript akEffectContext)
 	FormList akLootingLists
 	FormList akLootingGlobals
 	FormList akCurrentList
@@ -124,16 +125,16 @@ Function ProcessFilteredContainerItems(ObjectReference akContainer, ObjectRefere
 		Return
 	EndIf
 
-	akLootingLists = akEffectContext.LPAL_FLST_System_Looting_Lists
-	akLootingGlobals = akEffectContext.LPAL_FLST_System_Looting_Globals
+	akLootingLists = akEffectContext.PWAL_FLST_System_Looting_Lists
+	akLootingGlobals = akEffectContext.PWAL_FLST_System_Looting_Globals
 
 	If akLootingLists == None
-		LogWarn("ContainerProcessor", "ProcessFilteredContainerItems aborted: LPAL_FLST_System_Looting_Lists is None.")
+		LogWarn("ContainerProcessor", "ProcessFilteredContainerItems aborted: PWAL_FLST_System_Looting_Lists is None.")
 		Return
 	EndIf
 
 	If akLootingGlobals == None
-		LogWarn("ContainerProcessor", "ProcessFilteredContainerItems aborted: LPAL_FLST_System_Looting_Globals is None.")
+		LogWarn("ContainerProcessor", "ProcessFilteredContainerItems aborted: PWAL_FLST_System_Looting_Globals is None.")
 		Return
 	EndIf
 
@@ -185,7 +186,7 @@ EndFunction
 ; State Tracking
 ; ==============================================================
 
-Bool Function IsContainerAlreadyLooted(ObjectReference akContainer, LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function IsContainerAlreadyLooted(ObjectReference akContainer, PWAL:Looting:LootEffectScript akEffectContext)
 	Keyword akLootedKeyword
 
 	If akContainer == None || akEffectContext == None
@@ -200,7 +201,7 @@ Bool Function IsContainerAlreadyLooted(ObjectReference akContainer, LPAL:Looting
 	Return akContainer.HasKeyword(akLootedKeyword)
 EndFunction
 
-Function MarkContainerAsLooted(ObjectReference akContainer, LPAL:Looting:LootEffectScript akEffectContext)
+Function MarkContainerAsLooted(ObjectReference akContainer, PWAL:Looting:LootEffectScript akEffectContext)
 	Keyword akLootedKeyword
 
 	If akContainer == None || akEffectContext == None
@@ -225,7 +226,7 @@ Function LogWarn(String asSource, String asMessage)
 	If Logger
 		Logger.Warn(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][WARN][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][WARN][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -233,7 +234,7 @@ Function LogError(String asSource, String asMessage)
 	If Logger
 		Logger.Error(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][ERROR][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][ERROR][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -241,6 +242,6 @@ Function LogDebug(String asSource, String asMessage)
 	If Logger
 		Logger.DebugLog(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][DEBUG][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][DEBUG][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction

@@ -1,21 +1,22 @@
-ScriptName LPAL:System:VersionManagerScript extends Quest
+ScriptName PWAL:System:VersionManagerScript extends Quest
 
 ; ==============================================================
-; Ganja Panda’s Auto Loot (LPAL) – A Lazy Panda’s Looting Framework
+; PandaWorks Studios - PandaWorks Auto Loot
 ; Author: Ganja Panda
 ; Version: 1.00
+; Created: 04-10-2026
 ; License: Copyright (c) 2026 PandaWorks Studios. All rights reserved.
 ; Script: VersionManagerScript
 ; Type: System / Version Management
 ; Purpose:
-;   Manages LPAL framework version state using the installed
+;   Manages PWAL framework version state using the installed
 ;   save-bound version globals and the expected script version.
 ;   Detects first install, update required, current version,
 ;   and invalid/newer-than-script states.
 ;
 ; Responsibilities:
-;   - Read installed version from LPAL version globals
-;   - Define expected LPAL framework version in script
+;   - Read installed version from PWAL version globals
+;   - Define expected PWAL framework version in script
 ;   - Compare installed version against expected version
 ;   - Detect first install/update/current/newer-than-script states
 ;   - Coordinate migration runtime state with RuntimeManager
@@ -32,12 +33,12 @@ ScriptName LPAL:System:VersionManagerScript extends Quest
 ; Properties
 ; ==============================================================
 
-LPAL:Core:LoggerScript Property Logger Auto
-LPAL:Core:RuntimeManagerScript Property RuntimeManager Auto
+PWAL:Core:LoggerScript Property Logger Auto
+PWAL:Core:RuntimeManagerScript Property RuntimeManager Auto
 
-GlobalVariable Property LPAL_GLOB_Version_Major Auto
-GlobalVariable Property LPAL_GLOB_Version_Minor Auto
-GlobalVariable Property LPAL_GLOB_Version_Patch Auto
+GlobalVariable Property PWAL_GLOB_Version_Major Auto
+GlobalVariable Property PWAL_GLOB_Version_Minor Auto
+GlobalVariable Property PWAL_GLOB_Version_Patch Auto
 
 Int Property iExpectedVersionMajor = 1 Auto Const
 Int Property iExpectedVersionMinor = 0 Auto Const
@@ -146,9 +147,9 @@ Function PersistExpectedVersion()
 		Return
 	EndIf
 
-	LPAL_GLOB_Version_Major.SetValueInt(iExpectedVersionMajor)
-	LPAL_GLOB_Version_Minor.SetValueInt(iExpectedVersionMinor)
-	LPAL_GLOB_Version_Patch.SetValueInt(iExpectedVersionPatch)
+	PWAL_GLOB_Version_Major.SetValueInt(iExpectedVersionMajor)
+	PWAL_GLOB_Version_Minor.SetValueInt(iExpectedVersionMinor)
+	PWAL_GLOB_Version_Patch.SetValueInt(iExpectedVersionPatch)
 
 	LogInfo("VersionManager", "Persisted expected version to installed globals: " + BuildExpectedVersionString())
 EndFunction
@@ -210,27 +211,27 @@ EndFunction
 ; ==============================================================
 
 Int Function GetInstalledVersionMajor()
-	If LPAL_GLOB_Version_Major == None
+	If PWAL_GLOB_Version_Major == None
 		Return 0
 	EndIf
 
-	Return LPAL_GLOB_Version_Major.GetValueInt()
+	Return PWAL_GLOB_Version_Major.GetValueInt()
 EndFunction
 
 Int Function GetInstalledVersionMinor()
-	If LPAL_GLOB_Version_Minor == None
+	If PWAL_GLOB_Version_Minor == None
 		Return 0
 	EndIf
 
-	Return LPAL_GLOB_Version_Minor.GetValueInt()
+	Return PWAL_GLOB_Version_Minor.GetValueInt()
 EndFunction
 
 Int Function GetInstalledVersionPatch()
-	If LPAL_GLOB_Version_Patch == None
+	If PWAL_GLOB_Version_Patch == None
 		Return 0
 	EndIf
 
-	Return LPAL_GLOB_Version_Patch.GetValueInt()
+	Return PWAL_GLOB_Version_Patch.GetValueInt()
 EndFunction
 
 ; ==============================================================
@@ -294,18 +295,18 @@ Int Function CompareInstalledToExpected()
 EndFunction
 
 Bool Function ValidateVersionGlobals()
-	If LPAL_GLOB_Version_Major == None
-		LogError("VersionManager", "LPAL_GLOB_Version_Major property is not filled.")
+	If PWAL_GLOB_Version_Major == None
+		LogError("VersionManager", "PWAL_GLOB_Version_Major property is not filled.")
 		Return False
 	EndIf
 
-	If LPAL_GLOB_Version_Minor == None
-		LogError("VersionManager", "LPAL_GLOB_Version_Minor property is not filled.")
+	If PWAL_GLOB_Version_Minor == None
+		LogError("VersionManager", "PWAL_GLOB_Version_Minor property is not filled.")
 		Return False
 	EndIf
 
-	If LPAL_GLOB_Version_Patch == None
-		LogError("VersionManager", "LPAL_GLOB_Version_Patch property is not filled.")
+	If PWAL_GLOB_Version_Patch == None
+		LogError("VersionManager", "PWAL_GLOB_Version_Patch property is not filled.")
 		Return False
 	EndIf
 
@@ -329,7 +330,7 @@ Function LogInfo(String asSource, String asMessage)
 	If Logger
 		Logger.Info(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][INFO][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][INFO][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -337,7 +338,7 @@ Function LogWarn(String asSource, String asMessage)
 	If Logger
 		Logger.Warn(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][WARN][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][WARN][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -345,7 +346,7 @@ Function LogError(String asSource, String asMessage)
 	If Logger
 		Logger.Error(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][ERROR][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][ERROR][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -353,6 +354,6 @@ Function LogDebug(String asSource, String asMessage)
 	If Logger
 		Logger.DebugLog(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][DEBUG][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][DEBUG][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction

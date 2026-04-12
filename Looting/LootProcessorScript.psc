@@ -1,14 +1,15 @@
-ScriptName LPAL:Looting:LootProcessorScript Extends Quest Hidden
+ScriptName PWAL:Looting:LootProcessorScript Extends Quest Hidden
 
 ; ==============================================================
-; Ganja Panda’s Auto Loot (LPAL) – A Lazy Panda’s Looting Framework
+; PandaWorks Studios - PandaWorks Auto Loot
 ; Author: Ganja Panda
 ; Version: 1.00
+; Created: 04-10-2026
 ; License: Copyright (c) 2026 PandaWorks Studios. All rights reserved.
 ; Script: LootProcessorScript
 ; Type: Looting / Processor Service
 ; Purpose:
-;   Routes scanned loot candidates into the correct LPAL handling
+;   Routes scanned loot candidates into the correct PWAL handling
 ;   path based on the CK-configured LootEffectScript context.
 ;
 ; Responsibilities:
@@ -31,19 +32,19 @@ ScriptName LPAL:Looting:LootProcessorScript Extends Quest Hidden
 ; ==============================================================
 
 Group FrameworkServices_AutoFill
-	LPAL:Core:LoggerScript Property Logger Auto Const Mandatory
-	LPAL:Core:RuntimeManagerScript Property RuntimeManager Auto Const Mandatory
-	LPAL:Looting:LootValidationScript Property LootValidation Auto Const Mandatory
-	LPAL:Looting:DestinationResolverScript Property DestinationResolver Auto Const Mandatory
-	LPAL:Looting:ContainerProcessorScript Property ContainerProcessor Auto Const Mandatory
-	LPAL:Looting:CorpseProcessorScript Property CorpseProcessor Auto Const Mandatory
+	PWAL:Core:LoggerScript Property Logger Auto Const Mandatory
+	PWAL:Core:RuntimeManagerScript Property RuntimeManager Auto Const Mandatory
+	PWAL:Looting:LootValidationScript Property LootValidation Auto Const Mandatory
+	PWAL:Looting:DestinationResolverScript Property DestinationResolver Auto Const Mandatory
+	PWAL:Looting:ContainerProcessorScript Property ContainerProcessor Auto Const Mandatory
+	PWAL:Looting:CorpseProcessorScript Property CorpseProcessor Auto Const Mandatory
 EndGroup
 
 ; ==============================================================
 ; Public API
 ; ==============================================================
 
-Int Function ProcessCandidates(ObjectReference[] akCandidates, LPAL:Looting:LootEffectScript akEffectContext)
+Int Function ProcessCandidates(ObjectReference[] akCandidates, PWAL:Looting:LootEffectScript akEffectContext)
 	Int iIndex
 	Int iProcessed
 
@@ -92,7 +93,7 @@ Int Function ProcessCandidates(ObjectReference[] akCandidates, LPAL:Looting:Loot
 	Return iProcessed
 EndFunction
 
-Bool Function ProcessSingleCandidate(ObjectReference akLoot, LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function ProcessSingleCandidate(ObjectReference akLoot, PWAL:Looting:LootEffectScript akEffectContext)
 	ObjectReference akResolvedLoot
 
 	If akLoot == None
@@ -137,7 +138,7 @@ EndFunction
 ; Route Handlers
 ; ==============================================================
 
-Bool Function RouteContainer(ObjectReference akContainer, LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function RouteContainer(ObjectReference akContainer, PWAL:Looting:LootEffectScript akEffectContext)
 	If akContainer == None
 		Return False
 	EndIf
@@ -152,7 +153,7 @@ Bool Function RouteContainer(ObjectReference akContainer, LPAL:Looting:LootEffec
 	Return True
 EndFunction
 
-Bool Function RouteCorpse(ObjectReference akCorpse, LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function RouteCorpse(ObjectReference akCorpse, PWAL:Looting:LootEffectScript akEffectContext)
 	Actor akCorpseActor
 
 	If akCorpse == None
@@ -180,7 +181,7 @@ Bool Function RouteCorpse(ObjectReference akCorpse, LPAL:Looting:LootEffectScrip
 	Return True
 EndFunction
 
-Bool Function RouteActivator(ObjectReference akLoot, LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function RouteActivator(ObjectReference akLoot, PWAL:Looting:LootEffectScript akEffectContext)
 	ObjectReference akLooterRef
 
 	If akLoot == None
@@ -197,7 +198,7 @@ Bool Function RouteActivator(ObjectReference akLoot, LPAL:Looting:LootEffectScri
 	Return True
 EndFunction
 
-Bool Function RouteSpellActivation(ObjectReference akLoot, LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function RouteSpellActivation(ObjectReference akLoot, PWAL:Looting:LootEffectScript akEffectContext)
 	Spell akLootSpell
 	ObjectReference akPlayerRef
 	Actor akPlayerActor
@@ -225,7 +226,7 @@ Bool Function RouteSpellActivation(ObjectReference akLoot, LPAL:Looting:LootEffe
 	Return True
 EndFunction
 
-Bool Function RouteLooseLoot(ObjectReference akLoot, LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function RouteLooseLoot(ObjectReference akLoot, PWAL:Looting:LootEffectScript akEffectContext)
 	ObjectReference akDestinationRef
 	Form akLootForm
 
@@ -259,7 +260,7 @@ EndFunction
 ; Candidate Helpers
 ; ==============================================================
 
-ObjectReference Function NormalizeCandidateRef(ObjectReference akLoot, LPAL:Looting:LootEffectScript akEffectContext)
+ObjectReference Function NormalizeCandidateRef(ObjectReference akLoot, PWAL:Looting:LootEffectScript akEffectContext)
 	ObjectReference akShipRef
 
 	If akLoot == None
@@ -295,7 +296,7 @@ Function LogWarn(String asSource, String asMessage)
 	If Logger
 		Logger.Warn(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][WARN][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][WARN][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -303,7 +304,7 @@ Function LogError(String asSource, String asMessage)
 	If Logger
 		Logger.Error(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][ERROR][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][ERROR][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -311,6 +312,6 @@ Function LogDebug(String asSource, String asMessage)
 	If Logger
 		Logger.DebugLog(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][DEBUG][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][DEBUG][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction

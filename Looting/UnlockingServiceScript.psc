@@ -1,14 +1,15 @@
-ScriptName LPAL:Looting:UnlockingServiceScript Extends Quest Hidden
+ScriptName PWAL:Looting:UnlockingServiceScript Extends Quest Hidden
 
 ; ==============================================================
-; Ganja Panda’s Auto Loot (LPAL) – A Lazy Panda’s Looting Framework
+; PandaWorks Studios - PandaWorks Auto Loot
 ; Author: Ganja Panda
 ; Version: 1.00
+; Created: 04-10-2026
 ; License: Copyright (c) 2026 PandaWorks Studios. All rights reserved.
 ; Script: UnlockingServiceScript
 ; Type: Looting / Unlocking Service
 ; Purpose:
-;   Handles container unlock decisions and unlock attempts for LPAL.
+;   Handles container unlock decisions and unlock attempts for PWAL.
 ;
 ; Responsibilities:
 ;   - Determine whether a locked container may be auto-unlocked
@@ -29,14 +30,14 @@ ScriptName LPAL:Looting:UnlockingServiceScript Extends Quest Hidden
 ; ==============================================================
 
 Group FrameworkServices_AutoFill
-	LPAL:Core:LoggerScript Property Logger Auto Const Mandatory
+	PWAL:Core:LoggerScript Property Logger Auto Const Mandatory
 EndGroup
 
 ; ==============================================================
 ; Public API
 ; ==============================================================
 
-Bool Function EnsureContainerAccess(ObjectReference akContainer, LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function EnsureContainerAccess(ObjectReference akContainer, PWAL:Looting:LootEffectScript akEffectContext)
 	If akContainer == None
 		LogWarn("UnlockingService", "EnsureContainerAccess aborted: akContainer is None.")
 		Return False
@@ -72,7 +73,7 @@ EndFunction
 ; Unlock Pipeline
 ; ==============================================================
 
-Function TryUnlock(ObjectReference akContainer, LPAL:Looting:LootEffectScript akEffectContext)
+Function TryUnlock(ObjectReference akContainer, PWAL:Looting:LootEffectScript akEffectContext)
 	Bool bLockSkillCheck
 	Bool bIsOwned
 	Int iLockLevel
@@ -110,7 +111,7 @@ Function HandleInaccessibleLock()
 	LogDebug("UnlockingService", "HandleInaccessibleLock called.")
 EndFunction
 
-Function HandleRequiresKey(ObjectReference akContainer, Bool bIsOwned, LPAL:Looting:LootEffectScript akEffectContext)
+Function HandleRequiresKey(ObjectReference akContainer, Bool bIsOwned, PWAL:Looting:LootEffectScript akEffectContext)
 	Key akKey
 
 	If akContainer == None || akEffectContext == None
@@ -136,7 +137,7 @@ Function HandleRequiresKey(ObjectReference akContainer, Bool bIsOwned, LPAL:Loot
 	EndIf
 EndFunction
 
-Function HandleDigipickUnlock(ObjectReference akContainer, Bool bIsOwned, Bool bLockSkillCheck, LPAL:Looting:LootEffectScript akEffectContext)
+Function HandleDigipickUnlock(ObjectReference akContainer, Bool bIsOwned, Bool bLockSkillCheck, PWAL:Looting:LootEffectScript akEffectContext)
 	ObjectReference akPlayerRef
 
 	If akContainer == None || akEffectContext == None
@@ -181,7 +182,7 @@ EndFunction
 ; Search Helpers
 ; ==============================================================
 
-Function FindDigipick(LPAL:Looting:LootEffectScript akEffectContext)
+Function FindDigipick(PWAL:Looting:LootEffectScript akEffectContext)
 	ObjectReference[] akSearchLocations
 	Int iIndex
 	ObjectReference akPlayerRef
@@ -198,7 +199,7 @@ Function FindDigipick(LPAL:Looting:LootEffectScript akEffectContext)
 	LogDebug("UnlockingService", "FindDigipick called.")
 
 	akSearchLocations = new ObjectReference[2]
-	akSearchLocations[0] = akEffectContext.GetLPALInventoryContainerRef()
+	akSearchLocations[0] = akEffectContext.GetPWALInventoryContainerRef()
 	akSearchLocations[1] = akEffectContext.GetLodgeSafeRef()
 
 	iIndex = 0
@@ -214,7 +215,7 @@ Function FindDigipick(LPAL:Looting:LootEffectScript akEffectContext)
 	EndWhile
 EndFunction
 
-Function FindKey(Key akKey, LPAL:Looting:LootEffectScript akEffectContext)
+Function FindKey(Key akKey, PWAL:Looting:LootEffectScript akEffectContext)
 	ObjectReference[] akSearchLocations
 	Int iIndex
 	ObjectReference akPlayerRef
@@ -231,7 +232,7 @@ Function FindKey(Key akKey, LPAL:Looting:LootEffectScript akEffectContext)
 	LogDebug("UnlockingService", "FindKey called with key: " + akKey)
 
 	akSearchLocations = new ObjectReference[2]
-	akSearchLocations[0] = akEffectContext.GetLPALInventoryContainerRef()
+	akSearchLocations[0] = akEffectContext.GetPWALInventoryContainerRef()
 	akSearchLocations[1] = akEffectContext.GetLodgeSafeRef()
 
 	iIndex = 0
@@ -251,7 +252,7 @@ EndFunction
 ; Skill Check Helpers
 ; ==============================================================
 
-Bool Function CanUnlock(ObjectReference akContainer, LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function CanUnlock(ObjectReference akContainer, PWAL:Looting:LootEffectScript akEffectContext)
 	Int iLockLevel
 	Int[] aiLockLevels
 	Bool[] abCanUnlock
@@ -314,7 +315,7 @@ Function LogWarn(String asSource, String asMessage)
 	If Logger
 		Logger.Warn(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][WARN][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][WARN][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -322,7 +323,7 @@ Function LogError(String asSource, String asMessage)
 	If Logger
 		Logger.Error(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][ERROR][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][ERROR][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -330,6 +331,6 @@ Function LogDebug(String asSource, String asMessage)
 	If Logger
 		Logger.DebugLog(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][DEBUG][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][DEBUG][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction

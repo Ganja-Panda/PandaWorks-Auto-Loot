@@ -1,15 +1,16 @@
-ScriptName LPAL:System:InstallManagerScript extends Quest
+ScriptName PWAL:System:InstallManagerScript extends Quest
 
 ; ==============================================================
-; Ganja Panda’s Auto Loot (LPAL) – A Lazy Panda’s Looting Framework
+; PandaWorks Studios - PandaWorks Auto Loot
 ; Author: Ganja Panda
 ; Version: 1.00
+; Created: 04-10-2026
 ; License: Copyright (c) 2026 PandaWorks Studios. All rights reserved.
 ; Script: InstallManagerScript
 ; Type: System / Installation
 ; Purpose:
 ;   Manages first-install framework initialization and install-state
-;   handling for LPAL. Responsible for applying one-time baseline
+;   handling for PWAL. Responsible for applying one-time baseline
 ;   setup when the framework is being initialized on a save for the
 ;   first time.
 ;
@@ -32,14 +33,14 @@ ScriptName LPAL:System:InstallManagerScript extends Quest
 ; Properties
 ; ==============================================================
 
-LPAL:Core:LoggerScript Property Logger Auto
-LPAL:Core:RuntimeManagerScript Property RuntimeManager Auto
-LPAL:System:VersionManagerScript Property VersionManager Auto
+PWAL:Core:LoggerScript Property Logger Auto
+PWAL:Core:RuntimeManagerScript Property RuntimeManager Auto
+PWAL:System:VersionManagerScript Property VersionManager Auto
 
-GlobalVariable Property LPAL_GLOB_System_Installed Auto
-GlobalVariable Property LPAL_GLOB_Settings_Container_TakeAll Auto
-GlobalVariable Property LPAL_GLOB_Settings_Corpses_TakeAll Auto
-GlobalVariable Property LPAL_GLOB_Settings_Destination Auto
+GlobalVariable Property PWAL_GLOB_System_Installed Auto
+GlobalVariable Property PWAL_GLOB_Settings_Container_TakeAll Auto
+GlobalVariable Property PWAL_GLOB_Settings_Corpses_TakeAll Auto
+GlobalVariable Property PWAL_GLOB_Settings_Destination Auto
 
 ; ==============================================================
 ; Cached State
@@ -100,12 +101,12 @@ Bool Function IsFirstInstall()
 EndFunction
 
 Bool Function IsInstalled()
-	If LPAL_GLOB_System_Installed == None
-		LogError("InstallManager", "IsInstalled failed: LPAL_GLOB_System_Installed property is not filled.")
+	If PWAL_GLOB_System_Installed == None
+		LogError("InstallManager", "IsInstalled failed: PWAL_GLOB_System_Installed property is not filled.")
 		Return False
 	EndIf
 
-	Return (LPAL_GLOB_System_Installed.GetValueInt() != 0)
+	Return (PWAL_GLOB_System_Installed.GetValueInt() != 0)
 EndFunction
 
 Bool Function RunFirstTimeSetup()
@@ -152,8 +153,8 @@ EndFunction
 Bool Function EnsureBootstrapState()
 	LogInfo("InstallManager", "Ensuring bootstrap install state is valid.")
 
-	If LPAL_GLOB_System_Installed == None
-		LogError("InstallManager", "EnsureBootstrapState failed: LPAL_GLOB_System_Installed property is not filled.")
+	If PWAL_GLOB_System_Installed == None
+		LogError("InstallManager", "EnsureBootstrapState failed: PWAL_GLOB_System_Installed property is not filled.")
 		Return False
 	EndIf
 
@@ -164,28 +165,28 @@ EndFunction
 Bool Function ApplyInstallDefaults()
 	LogInfo("InstallManager", "Applying baseline install defaults.")
 
-	If LPAL_GLOB_Settings_Container_TakeAll == None
-		LogError("InstallManager", "ApplyInstallDefaults failed: LPAL_GLOB_Settings_Container_TakeAll property is not filled.")
+	If PWAL_GLOB_Settings_Container_TakeAll == None
+		LogError("InstallManager", "ApplyInstallDefaults failed: PWAL_GLOB_Settings_Container_TakeAll property is not filled.")
 		Return False
 	EndIf
 
-	If LPAL_GLOB_Settings_Corpses_TakeAll == None
-		LogError("InstallManager", "ApplyInstallDefaults failed: LPAL_GLOB_Settings_Corpses_TakeAll property is not filled.")
+	If PWAL_GLOB_Settings_Corpses_TakeAll == None
+		LogError("InstallManager", "ApplyInstallDefaults failed: PWAL_GLOB_Settings_Corpses_TakeAll property is not filled.")
 		Return False
 	EndIf
 
-	If LPAL_GLOB_Settings_Destination == None
-		LogError("InstallManager", "ApplyInstallDefaults failed: LPAL_GLOB_Settings_Destination property is not filled.")
+	If PWAL_GLOB_Settings_Destination == None
+		LogError("InstallManager", "ApplyInstallDefaults failed: PWAL_GLOB_Settings_Destination property is not filled.")
 		Return False
 	EndIf
 
-	LPAL_GLOB_Settings_Container_TakeAll.SetValueInt(1)
+	PWAL_GLOB_Settings_Container_TakeAll.SetValueInt(1)
 	LogDebug("InstallManager", "Default applied: Container TakeAll = 1")
 
-	LPAL_GLOB_Settings_Corpses_TakeAll.SetValueInt(1)
+	PWAL_GLOB_Settings_Corpses_TakeAll.SetValueInt(1)
 	LogDebug("InstallManager", "Default applied: Corpses TakeAll = 1")
 
-	LPAL_GLOB_Settings_Destination.SetValueInt(1)
+	PWAL_GLOB_Settings_Destination.SetValueInt(1)
 	LogDebug("InstallManager", "Default applied: Destination = 1 (Player)")
 
 	Return True
@@ -194,13 +195,13 @@ EndFunction
 Bool Function MarkInstalled()
 	LogInfo("InstallManager", "Marking framework as installed.")
 
-	If LPAL_GLOB_System_Installed == None
-		LogError("InstallManager", "MarkInstalled failed: LPAL_GLOB_System_Installed property is not filled.")
+	If PWAL_GLOB_System_Installed == None
+		LogError("InstallManager", "MarkInstalled failed: PWAL_GLOB_System_Installed property is not filled.")
 		Return False
 	EndIf
 
-	LPAL_GLOB_System_Installed.SetValueInt(1)
-	LogDebug("InstallManager", "Install marker applied: LPAL_GLOB_System_Installed = 1")
+	PWAL_GLOB_System_Installed.SetValueInt(1)
+	LogDebug("InstallManager", "Install marker applied: PWAL_GLOB_System_Installed = 1")
 
 	Return True
 EndFunction
@@ -208,42 +209,42 @@ EndFunction
 Bool Function RunPostInstallValidation()
 	LogInfo("InstallManager", "Running post-install validation hooks.")
 
-	If LPAL_GLOB_System_Installed == None
-		LogError("InstallManager", "RunPostInstallValidation failed: LPAL_GLOB_System_Installed property is not filled.")
+	If PWAL_GLOB_System_Installed == None
+		LogError("InstallManager", "RunPostInstallValidation failed: PWAL_GLOB_System_Installed property is not filled.")
 		Return False
 	EndIf
 
-	If LPAL_GLOB_Settings_Container_TakeAll == None
+	If PWAL_GLOB_Settings_Container_TakeAll == None
 		LogError("InstallManager", "RunPostInstallValidation failed: Container TakeAll global not filled.")
 		Return False
 	EndIf
 
-	If LPAL_GLOB_Settings_Corpses_TakeAll == None
+	If PWAL_GLOB_Settings_Corpses_TakeAll == None
 		LogError("InstallManager", "RunPostInstallValidation failed: Corpses TakeAll global not filled.")
 		Return False
 	EndIf
 
-	If LPAL_GLOB_Settings_Destination == None
+	If PWAL_GLOB_Settings_Destination == None
 		LogError("InstallManager", "RunPostInstallValidation failed: Destination global not filled.")
 		Return False
 	EndIf
 
-	If LPAL_GLOB_System_Installed.GetValueInt() != 1
+	If PWAL_GLOB_System_Installed.GetValueInt() != 1
 		LogError("InstallManager", "Post-install validation failed: Installed marker not set correctly.")
 		Return False
 	EndIf
 
-	If LPAL_GLOB_Settings_Container_TakeAll.GetValueInt() != 1
+	If PWAL_GLOB_Settings_Container_TakeAll.GetValueInt() != 1
 		LogError("InstallManager", "Post-install validation failed: Container TakeAll not set correctly.")
 		Return False
 	EndIf
 
-	If LPAL_GLOB_Settings_Corpses_TakeAll.GetValueInt() != 1
+	If PWAL_GLOB_Settings_Corpses_TakeAll.GetValueInt() != 1
 		LogError("InstallManager", "Post-install validation failed: Corpses TakeAll not set correctly.")
 		Return False
 	EndIf
 
-	If LPAL_GLOB_Settings_Destination.GetValueInt() != 1
+	If PWAL_GLOB_Settings_Destination.GetValueInt() != 1
 		LogError("InstallManager", "Post-install validation failed: Destination not set correctly.")
 		Return False
 	EndIf
@@ -253,12 +254,12 @@ Bool Function RunPostInstallValidation()
 EndFunction
 
 Function MarkUninstalled()
-	If LPAL_GLOB_System_Installed == None
-		LogError("InstallManager", "MarkUninstalled failed: LPAL_GLOB_System_Installed property is not filled.")
+	If PWAL_GLOB_System_Installed == None
+		LogError("InstallManager", "MarkUninstalled failed: PWAL_GLOB_System_Installed property is not filled.")
 		Return
 	EndIf
 
-	LPAL_GLOB_System_Installed.SetValueInt(0)
+	PWAL_GLOB_System_Installed.SetValueInt(0)
 	LogInfo("InstallManager", "Framework install marker cleared.")
 EndFunction
 
@@ -287,7 +288,7 @@ Function LogInfo(String asSource, String asMessage)
 	If Logger
 		Logger.Info(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][INFO][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][INFO][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -295,7 +296,7 @@ Function LogWarn(String asSource, String asMessage)
 	If Logger
 		Logger.Warn(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][WARN][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][WARN][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -303,7 +304,7 @@ Function LogError(String asSource, String asMessage)
 	If Logger
 		Logger.Error(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][ERROR][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][ERROR][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -311,6 +312,6 @@ Function LogDebug(String asSource, String asMessage)
 	If Logger
 		Logger.DebugLog(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][DEBUG][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][DEBUG][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction

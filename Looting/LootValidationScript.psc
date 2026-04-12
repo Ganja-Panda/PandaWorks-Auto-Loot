@@ -1,16 +1,17 @@
-ScriptName LPAL:Looting:LootValidationScript Extends Quest Hidden
+ScriptName PWAL:Looting:LootValidationScript Extends Quest Hidden
 
 ; ==============================================================
-; Ganja Panda’s Auto Loot (LPAL) – A Lazy Panda’s Looting Framework
+; Pandworks Studios - PandaWork Auto Loot
 ; Author: Ganja Panda
 ; Version: 1.00
+; Created: 04-10-2026
 ; License: Copyright (c) 2026 PandaWorks Studios. All rights reserved.
 ; Script: LootValidationScript
 ; Type: Looting / Validation
 ; Purpose:
-;   Central validation service for LPAL looting decisions.
+;   Central validation service for PWAL looting decisions.
 ;   Determines whether a loot reference is valid and allowed
-;   for processing under current LPAL settings.
+;   for processing under current PWAL settings.
 ;
 ; Responsibilities:
 ;   - Validate whether loot may be processed
@@ -34,7 +35,7 @@ ScriptName LPAL:Looting:LootValidationScript Extends Quest Hidden
 ; Properties
 ; ==============================================================
 
-LPAL:Core:LoggerScript Property Logger Auto Const
+PWAL:Core:LoggerScript Property Logger Auto Const
 
 LocationAlias Property LodgeLocation Auto Const
 Keyword Property LocTypeOutpost Auto Const
@@ -44,7 +45,7 @@ Keyword Property LocTypePlayerHouse Auto Const
 ; Public API
 ; ==============================================================
 
-Bool Function CanProcessLoot(ObjectReference akLoot, LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function CanProcessLoot(ObjectReference akLoot, PWAL:Looting:LootEffectScript akEffectContext)
 	Actor akPlayerActor
 
 	LogDebug("LootValidation", "CanProcessLoot called.")
@@ -118,7 +119,7 @@ Bool Function CanProcessLoot(ObjectReference akLoot, LPAL:Looting:LootEffectScri
 	Return True
 EndFunction
 
-Bool Function CanProcess(ObjectReference akLoot, ObjectReference akLooterRef, LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function CanProcess(ObjectReference akLoot, ObjectReference akLooterRef, PWAL:Looting:LootEffectScript akEffectContext)
 	Return CanProcessLoot(akLoot, akEffectContext)
 EndFunction
 
@@ -126,17 +127,17 @@ EndFunction
 ; Validation Helpers
 ; ==============================================================
 
-Bool Function CanLootShipSpaceContent(LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function CanLootShipSpaceContent(PWAL:Looting:LootEffectScript akEffectContext)
 	If akEffectContext == None
 		Return False
 	EndIf
 
-	If akEffectContext.LPAL_GLOB_Settings_AllowLooting_Ships == None
+	If akEffectContext.PWAL_GLOB_Settings_AllowLooting_Ships == None
 		LogDebug("LootValidation", "CanLootShipSpaceContent: AllowLooting_Ships global missing. Defaulting to FALSE.")
 		Return False
 	EndIf
 
-	Return akEffectContext.LPAL_GLOB_Settings_AllowLooting_Ships.GetValueInt() != 0
+	Return akEffectContext.PWAL_GLOB_Settings_AllowLooting_Ships.GetValueInt() != 0
 EndFunction
 
 Bool Function IsQuestLoot(ObjectReference akLoot)
@@ -147,7 +148,7 @@ Bool Function IsQuestLoot(ObjectReference akLoot)
 	Return akLoot.IsQuestItem()
 EndFunction
 
-Bool Function IsProtectedSourceRef(ObjectReference akLoot, LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function IsProtectedSourceRef(ObjectReference akLoot, PWAL:Looting:LootEffectScript akEffectContext)
 	If akLoot == None || akEffectContext == None
 		Return False
 	EndIf
@@ -156,12 +157,12 @@ Bool Function IsProtectedSourceRef(ObjectReference akLoot, LPAL:Looting:LootEffe
 		Return True
 	EndIf
 
-	; LPAL_CONT_Inventory_Reference is the Lazy Panda inventory container.
+	; PWAL_CONT_Inventory_Reference is the  Ganja Panda's inventory container.
 	; It is not a protected home-ship source ref.
 	Return False
 EndFunction
 
-Bool Function IsAlreadyLooted(ObjectReference akLoot, LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function IsAlreadyLooted(ObjectReference akLoot, PWAL:Looting:LootEffectScript akEffectContext)
 	Actor akActor
 	Keyword akLootedKeyword
 
@@ -183,7 +184,7 @@ Bool Function IsAlreadyLooted(ObjectReference akLoot, LPAL:Looting:LootEffectScr
 	Return akLoot.HasKeyword(akLootedKeyword)
 EndFunction
 
-Bool Function IsInBlockedOwnedArea(LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function IsInBlockedOwnedArea(PWAL:Looting:LootEffectScript akEffectContext)
 	ObjectReference akPlayerRef
 	Location akPlayerLocation
 	Location akLodgeLocation
@@ -206,12 +207,12 @@ Bool Function IsInBlockedOwnedArea(LPAL:Looting:LootEffectScript akEffectContext
 	; Player homes
 	If LocTypePlayerHouse != None
 		If akPlayerLocation.HasKeyword(LocTypePlayerHouse)
-			If akEffectContext.LPAL_GLOB_Settings_AllowLooting_PlayerHomes == None
+			If akEffectContext.PWAL_GLOB_Settings_AllowLooting_PlayerHomes == None
 				LogDebug("LootValidation", "Blocked: player home looting global missing.")
 				Return True
 			EndIf
 
-			If akEffectContext.LPAL_GLOB_Settings_AllowLooting_PlayerHomes.GetValueInt() == 0
+			If akEffectContext.PWAL_GLOB_Settings_AllowLooting_PlayerHomes.GetValueInt() == 0
 				LogDebug("LootValidation", "Blocked: player home looting is disabled.")
 				Return True
 			EndIf
@@ -224,12 +225,12 @@ Bool Function IsInBlockedOwnedArea(LPAL:Looting:LootEffectScript akEffectContext
 
 		If akLodgeLocation != None
 			If akPlayerRef.IsInLocation(akLodgeLocation)
-				If akEffectContext.LPAL_GLOB_Settings_AllowLooting_Lodge == None
+				If akEffectContext.PWAL_GLOB_Settings_AllowLooting_Lodge == None
 					LogDebug("LootValidation", "Blocked: lodge looting global missing.")
 					Return True
 				EndIf
 
-				If akEffectContext.LPAL_GLOB_Settings_AllowLooting_Lodge.GetValueInt() == 0
+				If akEffectContext.PWAL_GLOB_Settings_AllowLooting_Lodge.GetValueInt() == 0
 					LogDebug("LootValidation", "Blocked: lodge looting is disabled.")
 					Return True
 				EndIf
@@ -240,12 +241,12 @@ Bool Function IsInBlockedOwnedArea(LPAL:Looting:LootEffectScript akEffectContext
 	; Player outposts
 	If LocTypeOutpost != None
 		If akPlayerLocation.HasKeyword(LocTypeOutpost)
-			If akEffectContext.LPAL_GLOB_Settings_AllowLooting_Outposts == None
+			If akEffectContext.PWAL_GLOB_Settings_AllowLooting_Outposts == None
 				LogDebug("LootValidation", "Blocked: outpost looting global missing.")
 				Return True
 			EndIf
 
-			If akEffectContext.LPAL_GLOB_Settings_AllowLooting_Outposts.GetValueInt() == 0
+			If akEffectContext.PWAL_GLOB_Settings_AllowLooting_Outposts.GetValueInt() == 0
 				LogDebug("LootValidation", "Blocked: outpost looting is disabled.")
 				Return True
 			EndIf
@@ -255,7 +256,7 @@ Bool Function IsInBlockedOwnedArea(LPAL:Looting:LootEffectScript akEffectContext
 	Return False
 EndFunction
 
-Bool Function IsOwned(ObjectReference akLoot, LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function IsOwned(ObjectReference akLoot, PWAL:Looting:LootEffectScript akEffectContext)
 	Actor akPlayerActor
 
 	If akLoot == None || akEffectContext == None
@@ -270,7 +271,7 @@ Bool Function IsOwned(ObjectReference akLoot, LPAL:Looting:LootEffectScript akEf
 	Return akPlayerActor.WouldBeStealing(akLoot) || IsPlayerStealing(akLoot, akEffectContext) || akLoot.HasOwner()
 EndFunction
 
-Bool Function IsPlayerStealing(ObjectReference akLoot, LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function IsPlayerStealing(ObjectReference akLoot, PWAL:Looting:LootEffectScript akEffectContext)
 	Faction akCurrentOwner
 
 	If akLoot == None || akEffectContext == None
@@ -315,7 +316,7 @@ Function LogInfo(String asSource, String asMessage)
 	If Logger
 		Logger.Info(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][INFO][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][INFO][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -323,7 +324,7 @@ Function LogWarn(String asSource, String asMessage)
 	If Logger
 		Logger.Warn(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][WARN][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][WARN][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -331,7 +332,7 @@ Function LogError(String asSource, String asMessage)
 	If Logger
 		Logger.Error(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][ERROR][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][ERROR][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -339,6 +340,6 @@ Function LogDebug(String asSource, String asMessage)
 	If Logger
 		Logger.DebugLog(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][DEBUG][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][DEBUG][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction

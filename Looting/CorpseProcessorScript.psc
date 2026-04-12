@@ -1,14 +1,15 @@
-ScriptName LPAL:Looting:CorpseProcessorScript Extends Quest Hidden
+ScriptName PWAL:Looting:CorpseProcessorScript Extends Quest Hidden
 
 ; ==============================================================
-; Ganja Panda’s Auto Loot (LPAL) – A Lazy Panda’s Looting Framework
+; PandaWorks Studios - PandaWorks Auto Loot
 ; Author: Ganja Panda
 ; Version: 1.00
+; Created: 04-10-2026
 ; License: Copyright (c) 2026 PandaWorks Studios. All rights reserved.
 ; Script: CorpseProcessorScript
 ; Type: Looting / Corpse Processor Service
 ; Purpose:
-;   Handles corpse-specific loot processing for LPAL.
+;   Handles corpse-specific loot processing for PWAL.
 ;
 ; Responsibilities:
 ;   - Skip already-looted corpses
@@ -25,11 +26,11 @@ ScriptName LPAL:Looting:CorpseProcessorScript Extends Quest Hidden
 ; ==============================================================
 
 Group FrameworkServices_AutoFill
-	LPAL:Core:LoggerScript Property Logger Auto Const Mandatory
-	LPAL:Looting:DestinationResolverScript Property DestinationResolver Auto Const Mandatory
+	PWAL:Core:LoggerScript Property Logger Auto Const Mandatory
+	PWAL:Looting:DestinationResolverScript Property DestinationResolver Auto Const Mandatory
 EndGroup
 
-Function ProcessCorpse(ObjectReference akCorpse, LPAL:Looting:LootEffectScript akEffectContext)
+Function ProcessCorpse(ObjectReference akCorpse, PWAL:Looting:LootEffectScript akEffectContext)
 	Actor akCorpseActor
 	ObjectReference akDestinationRef
 
@@ -70,7 +71,7 @@ Function ProcessCorpse(ObjectReference akCorpse, LPAL:Looting:LootEffectScript a
 	; without causing floating heads.
 	If akEffectContext.IsHumanRace(akCorpseActor)
 		akCorpseActor.UnequipAll()
-		akCorpseActor.EquipItem(akEffectContext.LPAL_ARMO_Skin_Naked_NOTPLAYABLE as Form, False, False)
+		akCorpseActor.EquipItem(akEffectContext.PWAL_ARMO_Skin_Naked_NOTPLAYABLE as Form, False, False)
 	EndIf
 
 	Utility.Wait(0.1)
@@ -100,7 +101,7 @@ EndFunction
 ; Processing Paths
 ; ==============================================================
 
-Function ProcessTakeAllCorpse(ObjectReference akCorpse, ObjectReference akDestinationRef, LPAL:Looting:LootEffectScript akEffectContext)
+Function ProcessTakeAllCorpse(ObjectReference akCorpse, ObjectReference akDestinationRef, PWAL:Looting:LootEffectScript akEffectContext)
 	If akCorpse == None || akDestinationRef == None || akEffectContext == None
 		Return
 	EndIf
@@ -111,7 +112,7 @@ Function ProcessTakeAllCorpse(ObjectReference akCorpse, ObjectReference akDestin
 	LogDebug("CorpseProcessor", "ProcessTakeAllCorpse transferred all contents.")
 EndFunction
 
-Function ProcessFilteredCorpseItems(ObjectReference akCorpse, ObjectReference akDestinationRef, LPAL:Looting:LootEffectScript akEffectContext)
+Function ProcessFilteredCorpseItems(ObjectReference akCorpse, ObjectReference akDestinationRef, PWAL:Looting:LootEffectScript akEffectContext)
 	FormList akLootingLists
 	FormList akLootingGlobals
 	FormList akCurrentList
@@ -127,16 +128,16 @@ Function ProcessFilteredCorpseItems(ObjectReference akCorpse, ObjectReference ak
 		Return
 	EndIf
 
-	akLootingLists = akEffectContext.LPAL_FLST_System_Looting_Lists
-	akLootingGlobals = akEffectContext.LPAL_FLST_System_Looting_Globals
+	akLootingLists = akEffectContext.PWAL_FLST_System_Looting_Lists
+	akLootingGlobals = akEffectContext.PWAL_FLST_System_Looting_Globals
 
 	If akLootingLists == None
-		LogWarn("CorpseProcessor", "ProcessFilteredCorpseItems aborted: LPAL_FLST_System_Looting_Lists is None.")
+		LogWarn("CorpseProcessor", "ProcessFilteredCorpseItems aborted: PWAL_FLST_System_Looting_Lists is None.")
 		Return
 	EndIf
 
 	If akLootingGlobals == None
-		LogWarn("CorpseProcessor", "ProcessFilteredCorpseItems aborted: LPAL_FLST_System_Looting_Globals is None.")
+		LogWarn("CorpseProcessor", "ProcessFilteredCorpseItems aborted: PWAL_FLST_System_Looting_Globals is None.")
 		Return
 	EndIf
 
@@ -186,7 +187,7 @@ EndFunction
 ; State Tracking
 ; ==============================================================
 
-Bool Function IsCorpseAlreadyLooted(ObjectReference akCorpse, LPAL:Looting:LootEffectScript akEffectContext)
+Bool Function IsCorpseAlreadyLooted(ObjectReference akCorpse, PWAL:Looting:LootEffectScript akEffectContext)
 	Keyword akLootedKeyword
 
 	If akCorpse == None || akEffectContext == None
@@ -201,7 +202,7 @@ Bool Function IsCorpseAlreadyLooted(ObjectReference akCorpse, LPAL:Looting:LootE
 	Return akCorpse.HasKeyword(akLootedKeyword)
 EndFunction
 
-Function MarkCorpseAsLooted(ObjectReference akCorpse, LPAL:Looting:LootEffectScript akEffectContext)
+Function MarkCorpseAsLooted(ObjectReference akCorpse, PWAL:Looting:LootEffectScript akEffectContext)
 	Keyword akLootedKeyword
 
 	If akCorpse == None || akEffectContext == None
@@ -222,7 +223,7 @@ EndFunction
 ; Cleanup
 ; ==============================================================
 
-Function HandleCorpseCleanup(ObjectReference akCorpse, LPAL:Looting:LootEffectScript akEffectContext)
+Function HandleCorpseCleanup(ObjectReference akCorpse, PWAL:Looting:LootEffectScript akEffectContext)
 	Actor akCorpseActor
 
 	If akCorpse == None
@@ -247,7 +248,7 @@ Function LogWarn(String asSource, String asMessage)
 	If Logger
 		Logger.Warn(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][WARN][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][WARN][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -255,7 +256,7 @@ Function LogError(String asSource, String asMessage)
 	If Logger
 		Logger.Error(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][ERROR][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][ERROR][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -263,6 +264,6 @@ Function LogDebug(String asSource, String asMessage)
 	If Logger
 		Logger.DebugLog(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][DEBUG][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][DEBUG][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction

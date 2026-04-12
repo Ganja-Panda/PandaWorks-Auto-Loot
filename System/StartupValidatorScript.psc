@@ -1,14 +1,15 @@
-ScriptName LPAL:System:StartupValidatorScript extends Quest
+ScriptName PWAL:System:StartupValidatorScript extends Quest
 
 ; ==============================================================
-; Ganja Panda’s Auto Loot (LPAL) – A Lazy Panda’s Looting Framework
+; PandaWorks Studios - PandaWorks Auto Loot
 ; Author: Ganja Panda
 ; Version: 1.00
+; Created: 04-10-2026
 ; License: Copyright (c) 2026 PandaWorks Studios. All rights reserved.
 ; Script: StartupValidatorScript
 ; Type: System / Validation
 ; Purpose:
-;   Validates required LPAL framework dependencies during startup.
+;   Validates required PWAL framework dependencies during startup.
 ;   Reports missing critical properties and determines whether
 ;   runtime startup may safely continue.
 ;
@@ -30,14 +31,14 @@ ScriptName LPAL:System:StartupValidatorScript extends Quest
 ; Properties
 ; ==============================================================
 
-LPAL:Core:LoggerScript Property Logger Auto
-LPAL:Core:RuntimeManagerScript Property RuntimeManager Auto
+PWAL:Core:LoggerScript Property Logger Auto
+PWAL:Core:RuntimeManagerScript Property RuntimeManager Auto
 
-GlobalVariable Property LPAL_GLOB_Utilities_Toggle_Logging Auto
-GlobalVariable Property LPAL_GLOB_System_Installed Auto
-GlobalVariable Property LPAL_GLOB_Settings_Container_TakeAll Auto
-GlobalVariable Property LPAL_GLOB_Settings_Corpses_TakeAll Auto
-GlobalVariable Property LPAL_GLOB_Settings_Destination Auto
+GlobalVariable Property PWAL_GLOB_Utilities_Toggle_Logging Auto
+GlobalVariable Property PWAL_GLOB_System_Installed Auto
+GlobalVariable Property PWAL_GLOB_Settings_Container_TakeAll Auto
+GlobalVariable Property PWAL_GLOB_Settings_Corpses_TakeAll Auto
+GlobalVariable Property PWAL_GLOB_Settings_Destination Auto
 
 ; ==============================================================
 ; Validation State
@@ -126,8 +127,8 @@ EndFunction
 ; ==============================================================
 
 Function ValidateLoggingGlobal()
-	If LPAL_GLOB_Utilities_Toggle_Logging == None
-		AddError("LPAL_GLOB_Utilities_Toggle_Logging property is not filled.")
+	If PWAL_GLOB_Utilities_Toggle_Logging == None
+		AddError("PWAL_GLOB_Utilities_Toggle_Logging property is not filled.")
 		Return
 	EndIf
 
@@ -135,8 +136,8 @@ Function ValidateLoggingGlobal()
 EndFunction
 
 Function ValidateInstalledGlobal()
-	If LPAL_GLOB_System_Installed == None
-		AddError("LPAL_GLOB_System_Installed property is not filled.")
+	If PWAL_GLOB_System_Installed == None
+		AddError("PWAL_GLOB_System_Installed property is not filled.")
 		Return
 	EndIf
 
@@ -144,8 +145,8 @@ Function ValidateInstalledGlobal()
 EndFunction
 
 Function ValidateContainerTakeAllGlobal()
-	If LPAL_GLOB_Settings_Container_TakeAll == None
-		AddError("LPAL_GLOB_Settings_Container_TakeAll property is not filled.")
+	If PWAL_GLOB_Settings_Container_TakeAll == None
+		AddError("PWAL_GLOB_Settings_Container_TakeAll property is not filled.")
 		Return
 	EndIf
 
@@ -153,8 +154,8 @@ Function ValidateContainerTakeAllGlobal()
 EndFunction
 
 Function ValidateCorpsesTakeAllGlobal()
-	If LPAL_GLOB_Settings_Corpses_TakeAll == None
-		AddError("LPAL_GLOB_Settings_Corpses_TakeAll property is not filled.")
+	If PWAL_GLOB_Settings_Corpses_TakeAll == None
+		AddError("PWAL_GLOB_Settings_Corpses_TakeAll property is not filled.")
 		Return
 	EndIf
 
@@ -162,8 +163,8 @@ Function ValidateCorpsesTakeAllGlobal()
 EndFunction
 
 Function ValidateDestinationGlobal()
-	If LPAL_GLOB_Settings_Destination == None
-		AddError("LPAL_GLOB_Settings_Destination property is not filled.")
+	If PWAL_GLOB_Settings_Destination == None
+		AddError("PWAL_GLOB_Settings_Destination property is not filled.")
 		Return
 	EndIf
 
@@ -198,7 +199,7 @@ Function LogInfo(String asSource, String asMessage)
 	If Logger
 		Logger.Info(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][INFO][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][INFO][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -206,7 +207,7 @@ Function LogWarn(String asSource, String asMessage)
 	If Logger
 		Logger.Warn(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][WARN][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][WARN][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -214,7 +215,7 @@ Function LogError(String asSource, String asMessage)
 	If Logger
 		Logger.Error(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][ERROR][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][ERROR][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -222,6 +223,6 @@ Function LogDebug(String asSource, String asMessage)
 	If Logger
 		Logger.DebugLog(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][DEBUG][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][DEBUG][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction

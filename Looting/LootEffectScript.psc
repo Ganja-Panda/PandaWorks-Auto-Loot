@@ -1,14 +1,15 @@
-ScriptName LPAL:Looting:LootEffectScript Extends ActiveMagicEffect Hidden
+ScriptName PWAL:Looting:LootEffectScript Extends ActiveMagicEffect Hidden
 
 ; ==============================================================
-; Ganja Panda’s Auto Loot (LPAL) – A Lazy Panda’s Looting Framework
+; PandaWorks Studios - PandaWorks Auto Loot
 ; Author: Ganja Panda
 ; Version: 1.00
+; Created: 04-10-2026
 ; License: Copyright (c) 2026 PandaWorks Studios. All rights reserved.
 ; Script: LootEffectScript
 ; Type: Looting / Effect Adapter
 ; Purpose:
-;   Thin ActiveMagicEffect adapter for LPAL looting effects.
+;   Thin ActiveMagicEffect adapter for PWAL looting effects.
 ;   Owns timer lifecycle, local reentry protection, and effect-
 ;   specific metadata, then hands real work off to framework
 ;   services.
@@ -32,10 +33,10 @@ ScriptName LPAL:Looting:LootEffectScript Extends ActiveMagicEffect Hidden
 ; Properties
 ; ==============================================================
 Group FrameworkServices_AutoFill
-	LPAL:Core:LoggerScript Property Logger Auto Const Mandatory
-	LPAL:Core:RuntimeManagerScript Property RuntimeManager Auto Const Mandatory
-	LPAL:Looting:LootScannerScript Property LootScanner Auto Const Mandatory
-	LPAL:Looting:LootProcessorScript Property LootProcessor Auto Const Mandatory
+	PWAL:Core:LoggerScript Property Logger Auto Const Mandatory
+	PWAL:Core:RuntimeManagerScript Property RuntimeManager Auto Const Mandatory
+	PWAL:Looting:LootScannerScript Property LootScanner Auto Const Mandatory
+	PWAL:Looting:LootProcessorScript Property LootProcessor Auto Const Mandatory
 EndGroup
 
 Group EffectProfile_Mandatory
@@ -61,22 +62,22 @@ Group EffectBehavior_FormFilter
 EndGroup
 
 Group Settings_Looting
-	GlobalVariable Property LPAL_GLOB_Settings_AllowLooting_HomeShip Auto Const
-	GlobalVariable Property LPAL_GLOB_Settings_AllowLooting_Lodge Auto Const
-	GlobalVariable Property LPAL_GLOB_Settings_AllowLooting_Outposts Auto Const
-	GlobalVariable Property LPAL_GLOB_Settings_AllowLooting_PlayerHomes Auto Const
-	GlobalVariable Property LPAL_GLOB_Settings_AllowLooting_Ships Auto Const
-	GlobalVariable Property LPAL_GLOB_Settings_Container_TakeAll Auto Const
-	GlobalVariable Property LPAL_GLOB_Settings_Corpse_Remove Auto Const
-	GlobalVariable Property LPAL_GLOB_Settings_Corpse_TakeAll Auto Const
-	GlobalVariable Property LPAL_GLOB_Settings_SearchRadius Auto Const
-	GlobalVariable Property LPAL_GLOB_Settings_Stealing_Allowed Auto Const
-	GlobalVariable Property LPAL_GLOB_Settings_Stealing_IsHostile Auto Const
+	GlobalVariable Property PWAL_GLOB_Settings_AllowLooting_HomeShip Auto Const
+	GlobalVariable Property PWAL_GLOB_Settings_AllowLooting_Lodge Auto Const
+	GlobalVariable Property PWAL_GLOB_Settings_AllowLooting_Outposts Auto Const
+	GlobalVariable Property PWAL_GLOB_Settings_AllowLooting_PlayerHomes Auto Const
+	GlobalVariable Property PWAL_GLOB_Settings_AllowLooting_Ships Auto Const
+	GlobalVariable Property PWAL_GLOB_Settings_Container_TakeAll Auto Const
+	GlobalVariable Property PWAL_GLOB_Settings_Corpse_Remove Auto Const
+	GlobalVariable Property PWAL_GLOB_Settings_Corpse_TakeAll Auto Const
+	GlobalVariable Property PWAL_GLOB_Settings_SearchRadius Auto Const
+	GlobalVariable Property PWAL_GLOB_Settings_Stealing_Allowed Auto Const
+	GlobalVariable Property PWAL_GLOB_Settings_Stealing_IsHostile Auto Const
 EndGroup
 
 Group Settings_Unlocking
-	GlobalVariable Property LPAL_GLOB_Settings_Unlock_Auto Auto Const
-	GlobalVariable Property LPAL_GLOB_Settings_Unlock_SkillCheck Auto Const
+	GlobalVariable Property PWAL_GLOB_Settings_Unlock_Auto Auto Const
+	GlobalVariable Property PWAL_GLOB_Settings_Unlock_SkillCheck Auto Const
 	GlobalVariable Property LockLevel_Advanced Auto Const
 	GlobalVariable Property LockLevel_Expert Auto Const
 	GlobalVariable Property LockLevel_Inaccessible Auto Const
@@ -91,28 +92,28 @@ Group Settings_Unlocking
 EndGroup
 
 Group System_Lists
-	FormList Property LPAL_FLST_System_Looting_Globals Auto Const
-	FormList Property LPAL_FLST_System_Looting_Lists Auto Const
+	FormList Property PWAL_FLST_System_Looting_Globals Auto Const
+	FormList Property PWAL_FLST_System_Looting_Lists Auto Const
 EndGroup
 
 Group WorldState_Tracking
-	Keyword Property LPAL_KYWD_Container_Looted Auto Const Mandatory
-	Keyword Property LPAL_KYWD_Corpse_Looted Auto Const Mandatory
+	Keyword Property PWAL_KYWD_Container_Looted Auto Const Mandatory
+	Keyword Property PWAL_KYWD_Corpse_Looted Auto Const Mandatory
 EndGroup
 
 Group WorldState_Forms
 	Keyword Property SpaceshipInventoryContainer Auto Const
-	Armor Property LPAL_ARMO_Skin_Naked_NOTPLAYABLE Auto Const Mandatory
+	Armor Property PWAL_ARMO_Skin_Naked_NOTPLAYABLE Auto Const Mandatory
 	Race Property HumanRace Auto Const Mandatory
 	Race Property SFBGS001_HumanRace Auto Const Mandatory
 	Race Property SFBGS003_HumanRace Auto Const Mandatory
-	GlobalVariable Property LPAL_GLOB_Utilities_Toggle_Logging Auto Const Mandatory
+	GlobalVariable Property PWAL_GLOB_Utilities_Toggle_Logging Auto Const Mandatory
 EndGroup
 
 Group WorldState_References
 	ObjectReference Property PlayerRef Auto Const
 	ObjectReference Property LodgeSafeRef Auto Const
-	ObjectReference Property LPAL_CONT_Inventory_Reference Auto Const
+	ObjectReference Property PWAL_CONT_Inventory_Reference Auto Const
 	ReferenceAlias Property PlayerHomeShip Auto Const Mandatory
 EndGroup
 
@@ -234,10 +235,10 @@ EndFunction
 ; ==============================================================
 
 Function RefreshRuntimeSettings()
-	bAllowStealing = GetGlobalBool(LPAL_GLOB_Settings_Stealing_Allowed)
-	bStealingIsHostile = GetGlobalBool(LPAL_GLOB_Settings_Stealing_IsHostile)
-	bTakeAllContainer = GetGlobalBool(LPAL_GLOB_Settings_Container_TakeAll)
-	bTakeAllCorpse = GetGlobalBool(LPAL_GLOB_Settings_Corpse_TakeAll)
+	bAllowStealing = GetGlobalBool(PWAL_GLOB_Settings_Stealing_Allowed)
+	bStealingIsHostile = GetGlobalBool(PWAL_GLOB_Settings_Stealing_IsHostile)
+	bTakeAllContainer = GetGlobalBool(PWAL_GLOB_Settings_Container_TakeAll)
+	bTakeAllCorpse = GetGlobalBool(PWAL_GLOB_Settings_Corpse_TakeAll)
 EndFunction
 
 ; ==============================================================
@@ -289,15 +290,15 @@ Bool Function TakeAllCorpses()
 EndFunction
 
 Bool Function CanAutoUnlock()
-	Return GetGlobalBool(LPAL_GLOB_Settings_Unlock_Auto)
+	Return GetGlobalBool(PWAL_GLOB_Settings_Unlock_Auto)
 EndFunction
 
 Bool Function UseAutoUnlockSkillCheck()
-	Return GetGlobalBool(LPAL_GLOB_Settings_Unlock_SkillCheck)
+	Return GetGlobalBool(PWAL_GLOB_Settings_Unlock_SkillCheck)
 EndFunction
 
 Bool Function RemoveCorpsesEnabled()
-	Return GetGlobalBool(LPAL_GLOB_Settings_Corpse_Remove)
+	Return GetGlobalBool(PWAL_GLOB_Settings_Corpse_Remove)
 EndFunction
 
 Float Function GetRadius()
@@ -305,12 +306,12 @@ Float Function GetRadius()
 		Return Game.GetGameSettingFloat("fMaxShipTransferDistance")
 	EndIf
 
-	If LPAL_GLOB_Settings_SearchRadius == None
-		LogWarn("LootEffect", "GetRadius fallback: LPAL_GLOB_Settings_SearchRadius is not filled.")
+	If PWAL_GLOB_Settings_SearchRadius == None
+		LogWarn("LootEffect", "GetRadius fallback: PWAL_GLOB_Settings_SearchRadius is not filled.")
 		Return 0.0
 	EndIf
 
-	Return LPAL_GLOB_Settings_SearchRadius.GetValue()
+	Return PWAL_GLOB_Settings_SearchRadius.GetValue()
 EndFunction
 
 ObjectReference Function ResolveLooterRef()
@@ -338,8 +339,8 @@ ObjectReference Function GetPlayerHomeShipRef()
 	Return None
 EndFunction
 
-ObjectReference Function GetLPALInventoryContainerRef()
-	Return LPAL_CONT_Inventory_Reference
+ObjectReference Function GetPWALInventoryContainerRef()
+	Return PWAL_CONT_Inventory_Reference
 EndFunction
 
 ObjectReference Function GetLodgeSafeRef()
@@ -347,11 +348,11 @@ ObjectReference Function GetLodgeSafeRef()
 EndFunction
 
 Keyword Function GetContainerLootedKeyword()
-	Return LPAL_KYWD_Container_Looted
+	Return PWAL_KYWD_Container_Looted
 EndFunction
 
 Keyword Function GetCorpseLootedKeyword()
-	Return LPAL_KYWD_Corpse_Looted
+	Return PWAL_KYWD_Corpse_Looted
 EndFunction
 
 Bool Function IsHumanRace(Actor akActor)
@@ -384,7 +385,7 @@ Function LogInfo(String asSource, String asMessage)
 	If Logger
 		Logger.Info(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][INFO][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][INFO][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -392,7 +393,7 @@ Function LogWarn(String asSource, String asMessage)
 	If Logger
 		Logger.Warn(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][WARN][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][WARN][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -400,7 +401,7 @@ Function LogError(String asSource, String asMessage)
 	If Logger
 		Logger.Error(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][ERROR][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][ERROR][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -408,6 +409,6 @@ Function LogDebug(String asSource, String asMessage)
 	If Logger
 		Logger.DebugLog(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][DEBUG][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][DEBUG][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction

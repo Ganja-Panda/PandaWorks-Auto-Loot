@@ -1,20 +1,21 @@
-ScriptName LPAL:Core:LoggerScript extends Quest
+ScriptName PWAL:Core:LoggerScript extends Quest
 
 ; ==============================================================
-; Ganja Panda’s Auto Loot (LPAL) – A Lazy Panda’s Looting Framework
+; PandaWorks Studios - PandaWork Auto Loot
 ; Author: Ganja Panda
 ; Version: 1.00
+; Created: 04-10-2026
 ; License: Copyright (c) 2026 PandaWorks Studios. All rights reserved.
 ; Script: LoggerScript
 ; Type: Core / Diagnostic Utility
 ; Purpose:
-;   Central diagnostic and logging utility for the LPAL framework.
+;   Central diagnostic and logging utility for the PWAL framework.
 ;   Provides standardized info, warning, error, and verbose debug
-;   trace output when the LPAL logging utility toggle is enabled.
+;   trace output when the PWAL logging utility toggle is enabled.
 ;
 ; Responsibilities:
 ;   - Format log messages consistently
-;   - Respect the existing LPAL logging toggle global
+;   - Respect the existing PWAL logging toggle global
 ;   - Provide centralized diagnostic trace helpers
 ;   - Normalize log source/message values
 ;   - Support verbose runtime inspection during development/testing
@@ -30,8 +31,8 @@ ScriptName LPAL:Core:LoggerScript extends Quest
 ; Properties
 ; ==============================================================
 
-GlobalVariable Property LPAL_GLOB_Utilities_Toggle_Logging Auto
-String Property sLogPrefix = "[LPAL]" Auto
+GlobalVariable Property PWAL_GLOB_Utilities_Toggle_Logging Auto
+String Property sLogPrefix = "[PWAL]" Auto
 
 ; ==============================================================
 ; Public Logging API
@@ -72,11 +73,11 @@ EndFunction
 ; ==============================================================
 
 Bool Function IsLoggingEnabled()
-	If LPAL_GLOB_Utilities_Toggle_Logging == None
+	If PWAL_GLOB_Utilities_Toggle_Logging == None
 		Return True
 	EndIf
 
-	Return (LPAL_GLOB_Utilities_Toggle_Logging.GetValueInt() != 0)
+	Return (PWAL_GLOB_Utilities_Toggle_Logging.GetValueInt() != 0)
 EndFunction
 
 ; ==============================================================

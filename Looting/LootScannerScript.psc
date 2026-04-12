@@ -1,9 +1,10 @@
-ScriptName LPAL:Looting:LootScannerScript Extends Quest Hidden
+ScriptName PWAL:Looting:LootScannerScript Extends Quest Hidden
 
 ; ==============================================================
-; Ganja Panda’s Auto Loot (LPAL) – A Lazy Panda’s Looting Framework
+; PandaWorks Studios - PandaWorks Auto Loot
 ; Author: Ganja Panda
 ; Version: 1.00
+; Created: 04-10-2026
 ; License: Copyright (c) 2026 PandaWorks Studios. All rights reserved.
 ; Script: LootScannerScript
 ; Type: Looting / Scanner Service
@@ -29,14 +30,14 @@ ScriptName LPAL:Looting:LootScannerScript Extends Quest Hidden
 ; Properties
 ; ==============================================================
 
-LPAL:Core:LoggerScript Property Logger Auto Const Mandatory
+PWAL:Core:LoggerScript Property Logger Auto Const Mandatory
 ObjectReference Property PlayerRef Auto Const Mandatory
 
 ; ==============================================================
 ; Public API
 ; ==============================================================
 
-ObjectReference[] Function Scan(LPAL:Looting:LootEffectScript akEffectContext)
+ObjectReference[] Function Scan(PWAL:Looting:LootEffectScript akEffectContext)
 	FormList akLootList
 
 	If akEffectContext == None
@@ -73,7 +74,7 @@ EndFunction
 ; Scan Paths
 ; ==============================================================
 
-ObjectReference[] Function LocateLootBySingleKeyword(FormList akLootList, LPAL:Looting:LootEffectScript akEffectContext)
+ObjectReference[] Function LocateLootBySingleKeyword(FormList akLootList, PWAL:Looting:LootEffectScript akEffectContext)
 	Keyword akKeyword
 	ObjectReference[] akLootArray
 
@@ -96,7 +97,7 @@ ObjectReference[] Function LocateLootBySingleKeyword(FormList akLootList, LPAL:L
 	Return akLootArray
 EndFunction
 
-ObjectReference[] Function LocateLootByKeywordList(FormList akLootList, LPAL:Looting:LootEffectScript akEffectContext)
+ObjectReference[] Function LocateLootByKeywordList(FormList akLootList, PWAL:Looting:LootEffectScript akEffectContext)
 	ObjectReference[] akAllResults
 	ObjectReference[] akLootArray
 	Keyword akKeyword
@@ -132,7 +133,7 @@ ObjectReference[] Function LocateLootByKeywordList(FormList akLootList, LPAL:Loo
 	Return akAllResults
 EndFunction
 
-ObjectReference[] Function LocateLootByFormType(FormList akLootList, LPAL:Looting:LootEffectScript akEffectContext)
+ObjectReference[] Function LocateLootByFormType(FormList akLootList, PWAL:Looting:LootEffectScript akEffectContext)
 	Form akScanForm
 	ObjectReference[] akLootArray
 
@@ -263,7 +264,7 @@ Function LogWarn(String asSource, String asMessage)
 	If Logger
 		Logger.Warn(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][WARN][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][WARN][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -271,6 +272,6 @@ Function LogDebug(String asSource, String asMessage)
 	If Logger
 		Logger.DebugLog(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][DEBUG][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][DEBUG][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction

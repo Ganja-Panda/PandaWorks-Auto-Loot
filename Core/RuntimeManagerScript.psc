@@ -1,14 +1,15 @@
-ScriptName LPAL:Core:RuntimeManagerScript extends Quest
+ScriptName PWAL:Core:RuntimeManagerScript extends Quest
 
 ; ==============================================================
-; Ganja Panda’s Auto Loot (LPAL) – A Lazy Panda’s Looting Framework
+; PandaWorks Studios - PandaWorks Auto Loot
 ; Author: Ganja Panda
 ; Version: 1.00
+; Created: 04-10-2026
 ; License: Copyright (c) 2026 PandaWorks Studios. All rights reserved.
 ; Script: RuntimeManagerScript
 ; Type: System / Lifecycle
 ; Purpose:
-;   Central runtime lifecycle controller for the LPAL framework.
+;   Central runtime lifecycle controller for the PWAL framework.
 ;   Owns framework startup state, readiness state, startup guards,
 ;   migration/uninstall runtime flags, and framework gating.
 ;
@@ -31,10 +32,10 @@ ScriptName LPAL:Core:RuntimeManagerScript extends Quest
 ; Properties
 ; ==============================================================
 
-LPAL:Core:LoggerScript Property Logger Auto
-LPAL:System:StartupValidatorScript Property StartupValidator Auto
-LPAL:System:VersionManagerScript Property VersionManager Auto
-LPAL:System:InstallManagerScript Property InstallManager Auto
+PWAL:Core:LoggerScript Property Logger Auto
+PWAL:System:StartupValidatorScript Property StartupValidator Auto
+PWAL:System:VersionManagerScript Property VersionManager Auto
+PWAL:System:InstallManagerScript Property InstallManager Auto
 
 ; ==============================================================
 ; Runtime State Constants
@@ -464,7 +465,7 @@ Function LogDecision(String asContext, Bool abDecision, String asReason)
 	If Logger
 		Logger.TraceDecision("RuntimeManager", asContext, abDecision, asReason)
 	Else
-		Debug.Trace("[LPAL][DEBUG][RuntimeManager] " + asContext + " => " + sDecision + " | " + asReason)
+		Debug.Trace("[PWAL][DEBUG][RuntimeManager] " + asContext + " => " + sDecision + " | " + asReason)
 	EndIf
 EndFunction
 
@@ -476,7 +477,7 @@ Function LogInfo(String asSource, String asMessage)
 	If Logger
 		Logger.Info(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][INFO][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][INFO][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -484,7 +485,7 @@ Function LogWarn(String asSource, String asMessage)
 	If Logger
 		Logger.Warn(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][WARN][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][WARN][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -492,7 +493,7 @@ Function LogError(String asSource, String asMessage)
 	If Logger
 		Logger.Error(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][ERROR][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][ERROR][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
 
@@ -500,6 +501,6 @@ Function LogDebug(String asSource, String asMessage)
 	If Logger
 		Logger.DebugLog(asSource, asMessage)
 	Else
-		Debug.Trace("[LPAL][DEBUG][" + asSource + "] " + asMessage)
+		Debug.Trace("[PWAL][DEBUG][" + asSource + "] " + asMessage)
 	EndIf
 EndFunction
