@@ -33,6 +33,7 @@ EndGroup
 
 Function ProcessContainer(ObjectReference akContainer, PWAL:Looting:LootEffectScript akEffectContext)
 	ObjectReference akDestinationRef
+	Int iDestinationCode
 
 	If akContainer == None
 		LogWarn("ContainerProcessor", "ProcessContainer aborted: akContainer is None.")
@@ -74,7 +75,8 @@ Function ProcessContainer(ObjectReference akContainer, PWAL:Looting:LootEffectSc
 		Return
 	EndIf
 
-	akDestinationRef = DestinationResolver.ResolveDestinationRef(akEffectContext)
+	iDestinationCode = DestinationResolver.ResolveDestinationCode()
+	akDestinationRef = DestinationResolver.ResolveDestinationRef(iDestinationCode)
 	If akDestinationRef == None
 		LogWarn("ContainerProcessor", "ProcessContainer aborted: destination ref resolved to None.")
 		Return

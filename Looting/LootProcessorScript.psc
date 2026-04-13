@@ -229,6 +229,7 @@ EndFunction
 Bool Function RouteLooseLoot(ObjectReference akLoot, PWAL:Looting:LootEffectScript akEffectContext)
 	ObjectReference akDestinationRef
 	Form akLootForm
+	Int iDestinationCode
 
 	If akLoot == None
 		Return False
@@ -239,7 +240,8 @@ Bool Function RouteLooseLoot(ObjectReference akLoot, PWAL:Looting:LootEffectScri
 		Return False
 	EndIf
 
-	akDestinationRef = DestinationResolver.ResolveDestinationRef(akEffectContext)
+	iDestinationCode = DestinationResolver.ResolveDestinationCode()
+	akDestinationRef = DestinationResolver.ResolveDestinationRef(iDestinationCode)
 	If akDestinationRef == None
 		LogWarn("LootProcessor", "RouteLooseLoot failed: resolved destination ref is None.")
 		Return False

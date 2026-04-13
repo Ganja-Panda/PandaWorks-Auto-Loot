@@ -76,7 +76,10 @@ Function ProcessCorpse(ObjectReference akCorpse, PWAL:Looting:LootEffectScript a
 
 	Utility.Wait(0.1)
 
-	akDestinationRef = DestinationResolver.ResolveDestinationRef(akEffectContext)
+	Int iDestinationCode
+	iDestinationCode = DestinationResolver.ResolveDestinationCode()
+	
+	akDestinationRef = DestinationResolver.ResolveDestinationRef(iDestinationCode)
 	If akDestinationRef == None
 		LogWarn("CorpseProcessor", "ProcessCorpse aborted: destination ref resolved to None.")
 		Return
@@ -173,7 +176,18 @@ Function ProcessFilteredCorpseItems(ObjectReference akCorpse, ObjectReference ak
 			fGlobalValue = akCurrentGlobal.GetValue()
 
 			If fGlobalValue == 1.0
-				akCorpse.RemoveItem(akCurrentList as Form, -1, True, akDestinationRef)
+				Int j = 0
+				Int iEntryCount = akCurrentList.GetSize()
+
+				While j < iEntryCount
+					Form akEntry = akCurrentList.GetAt(j)
+
+					If akEntry != None
+						akCorpse.RemoveItem(akEntry, -1, True, akDestinationRef)
+					EndIf
+
+					j += 1
+				EndWhile
 			EndIf
 		EndIf
 
