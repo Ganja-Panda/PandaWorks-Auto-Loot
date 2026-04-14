@@ -6,7 +6,9 @@ It is a full rebuild of the original Lazy Panda mod, designed to provide reliabl
 
 The system allows players to:
 - automatically loot containers and corpses
+- automatically loot ship debris, asteroids, etc. that are in space. 
 - control what categories of items are looted
+- control where categories of items go after being looted
 - configure behavior through in-game terminal settings
 - streamline looting without constant manual interaction
 
@@ -19,9 +21,10 @@ This repository reflects ongoing work on the framework and is not a final releas
 ## Expected Release
 
 Target release window:
-**Early to Mid April**
+**Mid to Late April**
 
 This timeline is aligned with the upcoming Starfield update and platform release window.
+(Life is hectect at the moment so I'm working as fast as I can. I meant to have it ready on April 7th.) 
 
 ## Notes
 
