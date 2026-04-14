@@ -70,8 +70,8 @@ Function ProcessCorpse(ObjectReference akCorpse, PWAL:Looting:LootEffectScript a
 	; with the non-playable naked skin so armor becomes lootable
 	; without causing floating heads.
 	If akEffectContext.IsHumanRace(akCorpseActor)
-		akCorpseActor.EquipItem(akEffectContext.PWAL_ARMO_Skin_Naked_NOTPLAYABLE as Form, False, False)
 		akCorpseActor.UnequipAll()
+		akCorpseActor.EquipItem(akEffectContext.PWAL_ARMO_Skin_Naked_NOTPLAYABLE as Form, False, False)
 	EndIf
 
 	Utility.Wait(0.1)
