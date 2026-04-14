@@ -24,7 +24,7 @@ Target release window:
 **Mid to Late April**
 
 This timeline is aligned with the upcoming Starfield update and platform release window.  
-(Life is hectect at the moment so I'm working as fast as I can. I meant to have it ready on April 7th.) 
+(Life is hectic at the moment so I'm working as fast as I can. I meant to have it ready on April 7th.) 
 
 ## Notes
 
