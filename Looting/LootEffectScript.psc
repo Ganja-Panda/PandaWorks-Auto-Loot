@@ -166,7 +166,7 @@ Event OnTimer(Int aiTimerID)
 		Return
 	EndIf
 
-	bIsLooting = True
+	bIsLooting = true
 	ExecuteLooting()
 	bIsLooting = false
 

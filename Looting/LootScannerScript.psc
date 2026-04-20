@@ -207,7 +207,7 @@ Bool Function ArrayContainsRef(ObjectReference[] akArray, ObjectReference akRef)
 	iIndex = 0
 	While iIndex < akArray.Length
 		If akArray[iIndex] == akRef
-			Return True
+			Return true
 		EndIf
 		iIndex += 1
 	EndWhile

@@ -174,7 +174,7 @@ Function ProcessFilteredContainerItems(ObjectReference akContainer, ObjectRefere
 			If fGlobalValue == 1.0
 				; Preserve old LZP behavior:
 				; remove every item matching the enabled category list into the destination.
-				akContainer.RemoveItem(akCurrentList as Form, -1, True, akDestinationRef)
+				akContainer.RemoveItem(akCurrentList as Form, -1, true, akDestinationRef)
 			EndIf
 		EndIf
 

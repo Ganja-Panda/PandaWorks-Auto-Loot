@@ -92,7 +92,7 @@ Function OnFrameworkStart()
 		Return
 	EndIf
 
-	bStartupInProgress = True
+	bStartupInProgress = true
 	bFrameworkReady = false
 	iCurrentFrameworkState = STATE_STARTING
 
@@ -104,8 +104,8 @@ Function OnFrameworkStart()
 		Return
 	EndIf
 
-	bRuntimeInitialized = True
-	bFrameworkReady = True
+	bRuntimeInitialized = true
+	bFrameworkReady = true
 	bStartupInProgress = false
 	iCurrentFrameworkState = STATE_READY
 
@@ -152,7 +152,7 @@ Function SetMigrationRunning(Bool abValue)
 	bMigrationsRunning = abValue
 
 	If abValue
-		LogInfo("RuntimeManager", "Migration runtime flag set to TRUE.")
+		LogInfo("RuntimeManager", "Migration runtime flag set to true.")
 	Else
 		LogInfo("RuntimeManager", "Migration runtime flag set to false.")
 	EndIf
@@ -162,7 +162,7 @@ Function SetUninstallPending(Bool abValue)
 	bUninstallPending = abValue
 
 	If abValue
-		LogWarn("RuntimeManager", "Uninstall pending flag set to TRUE.")
+		LogWarn("RuntimeManager", "Uninstall pending flag set to true.")
 	Else
 		LogInfo("RuntimeManager", "Uninstall pending flag cleared.")
 	EndIf
@@ -222,8 +222,8 @@ Bool Function CanRunLooting()
 		Return false
 	EndIf
 
-	LogDecision("CanRunLooting", True, "Framework state allows looting.")
-	Return True
+	LogDecision("CanRunLooting", true, "Framework state allows looting.")
+	Return true
 EndFunction
 
 ; ==============================================================
@@ -349,7 +349,7 @@ Bool Function RunStartupFlow()
 		Return false
 	EndIf
 
-	Return True
+	Return true
 EndFunction
 
 Bool Function RunStartupValidationPhase()
@@ -368,7 +368,7 @@ Bool Function RunStartupValidationPhase()
 
 	LogDebug("RuntimeManager", "Startup validation phase completed successfully.")
 	LogInfo("RuntimeManager", "Startup phase: validation complete.")
-	Return True
+	Return true
 EndFunction
 
 Bool Function RunVersionCheckPhase()
@@ -387,7 +387,7 @@ Bool Function RunVersionCheckPhase()
 
 	LogDebug("RuntimeManager", "Version check phase completed successfully.")
 	LogInfo("RuntimeManager", "Startup phase: version check complete.")
-	Return True
+	Return true
 EndFunction
 
 Bool Function RunInstallCheckPhase()
@@ -406,7 +406,7 @@ Bool Function RunInstallCheckPhase()
 
 	LogDebug("RuntimeManager", "Install check phase completed successfully.")
 	LogInfo("RuntimeManager", "Startup phase: install check complete.")
-	Return True
+	Return true
 EndFunction
 
 Bool Function RunFinalizeStartupPhase()
@@ -420,7 +420,7 @@ Bool Function RunFinalizeStartupPhase()
 
 	LogDebug("RuntimeManager", "Finalize startup phase currently operating as a runtime stub.")
 	LogInfo("RuntimeManager", "Startup phase: finalization complete.")
-	Return True
+	Return true
 EndFunction
 
 ; ==============================================================
@@ -459,7 +459,7 @@ Function LogDecision(String asContext, Bool abDecision, String asReason)
 	String sDecision = "false"
 
 	If abDecision
-		sDecision = "TRUE"
+		sDecision = "true"
 	EndIf
 
 	If Logger

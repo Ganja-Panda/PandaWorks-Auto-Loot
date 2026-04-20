@@ -74,7 +74,7 @@ Bool Function HandleVersionState()
 
 	If iLastVersionState == VERSION_STATE_FIRST_INSTALL
 		LogInfo("VersionManager", "Version state resolved as FIRST_INSTALL.")
-		Return True
+		Return true
 	EndIf
 
 	If iLastVersionState == VERSION_STATE_UPDATE_REQUIRED
@@ -86,12 +86,12 @@ Bool Function HandleVersionState()
 		; - PersistExpectedVersion() on successful migration
 
 		EndMigration()
-		Return True
+		Return true
 	EndIf
 
 	If iLastVersionState == VERSION_STATE_CURRENT
 		LogInfo("VersionManager", "Version state resolved as CURRENT.")
-		Return True
+		Return true
 	EndIf
 
 	LogError("VersionManager", "HandleVersionState failed due to invalid version state.")
@@ -114,25 +114,25 @@ Bool Function CheckVersionState()
 
 	If IsFirstInstall()
 		iLastVersionState = VERSION_STATE_FIRST_INSTALL
-		bLastVersionCheckPassed = True
+		bLastVersionCheckPassed = true
 		LogInfo("VersionManager", "Detected first install state.")
-		Return True
+		Return true
 	EndIf
 
 	Int iComparison = CompareInstalledToExpected()
 
 	If iComparison < 0
 		iLastVersionState = VERSION_STATE_UPDATE_REQUIRED
-		bLastVersionCheckPassed = True
+		bLastVersionCheckPassed = true
 		LogInfo("VersionManager", "Installed version is older than expected. Update is required.")
-		Return True
+		Return true
 	EndIf
 
 	If iComparison == 0
 		iLastVersionState = VERSION_STATE_CURRENT
-		bLastVersionCheckPassed = True
+		bLastVersionCheckPassed = true
 		LogInfo("VersionManager", "Installed version matches expected version.")
-		Return True
+		Return true
 	EndIf
 
 	iLastVersionState = VERSION_STATE_SCRIPT_OLDER_THAN_SAVE
@@ -156,7 +156,7 @@ EndFunction
 
 Function BeginMigration()
 	If RuntimeManager
-		RuntimeManager.SetMigrationRunning(True)
+		RuntimeManager.SetMigrationRunning(true)
 	EndIf
 
 	LogInfo("VersionManager", "Migration runtime state entered.")
@@ -183,7 +183,7 @@ Bool Function IsFirstInstall()
 		Return false
 	EndIf
 
-	Return True
+	Return true
 EndFunction
 
 Bool Function IsUpdateRequired()
@@ -310,7 +310,7 @@ Bool Function ValidateVersionGlobals()
 		Return false
 	EndIf
 
-	Return True
+	Return true
 EndFunction
 
 Function ResetVersionCheckState()

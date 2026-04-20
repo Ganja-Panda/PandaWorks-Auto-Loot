@@ -116,7 +116,7 @@ Bool Function CanProcessLoot(ObjectReference akLoot, PWAL:Looting:LootEffectScri
 	EndIf
 
 	LogDebug("LootValidation", "Accepted: loot passed validation.")
-	Return True
+	Return true
 EndFunction
 
 Bool Function CanProcess(ObjectReference akLoot, ObjectReference akLooterRef, PWAL:Looting:LootEffectScript akEffectContext)
@@ -154,7 +154,7 @@ Bool Function IsProtectedSourceRef(ObjectReference akLoot, PWAL:Looting:LootEffe
 	EndIf
 
 	If akLoot == akEffectContext.GetLodgeSafeRef()
-		Return True
+		Return true
 	EndIf
 
 	; PWAL_CONT_Inventory_Reference is the  Ganja Panda's inventory container.
@@ -190,13 +190,13 @@ Bool Function IsInBlockedOwnedArea(PWAL:Looting:LootEffectScript akEffectContext
 	Location akLodgeLocation
 
 	If akEffectContext == None
-		Return True
+		Return true
 	EndIf
 
 	akPlayerRef = akEffectContext.GetPlayerRef()
 	If akPlayerRef == None
 		LogDebug("LootValidation", "IsInBlockedOwnedArea: PlayerRef is None. Treating as blocked.")
-		Return True
+		Return true
 	EndIf
 
 	akPlayerLocation = akPlayerRef.GetCurrentLocation()
@@ -209,12 +209,12 @@ Bool Function IsInBlockedOwnedArea(PWAL:Looting:LootEffectScript akEffectContext
 		If akPlayerLocation.HasKeyword(LocTypePlayerHouse)
 			If akEffectContext.PWAL_GLOB_Settings_AllowLooting_PlayerHomes == None
 				LogDebug("LootValidation", "Blocked: player home looting global missing.")
-				Return True
+				Return true
 			EndIf
 
 			If akEffectContext.PWAL_GLOB_Settings_AllowLooting_PlayerHomes.GetValueInt() == 0
 				LogDebug("LootValidation", "Blocked: player home looting is disabled.")
-				Return True
+				Return true
 			EndIf
 		EndIf
 	EndIf
@@ -227,12 +227,12 @@ Bool Function IsInBlockedOwnedArea(PWAL:Looting:LootEffectScript akEffectContext
 			If akPlayerRef.IsInLocation(akLodgeLocation)
 				If akEffectContext.PWAL_GLOB_Settings_AllowLooting_Lodge == None
 					LogDebug("LootValidation", "Blocked: lodge looting global missing.")
-					Return True
+					Return true
 				EndIf
 
 				If akEffectContext.PWAL_GLOB_Settings_AllowLooting_Lodge.GetValueInt() == 0
 					LogDebug("LootValidation", "Blocked: lodge looting is disabled.")
-					Return True
+					Return true
 				EndIf
 			EndIf
 		EndIf
@@ -243,12 +243,12 @@ Bool Function IsInBlockedOwnedArea(PWAL:Looting:LootEffectScript akEffectContext
 		If akPlayerLocation.HasKeyword(LocTypeOutpost)
 			If akEffectContext.PWAL_GLOB_Settings_AllowLooting_Outposts == None
 				LogDebug("LootValidation", "Blocked: outpost looting global missing.")
-				Return True
+				Return true
 			EndIf
 
 			If akEffectContext.PWAL_GLOB_Settings_AllowLooting_Outposts.GetValueInt() == 0
 				LogDebug("LootValidation", "Blocked: outpost looting is disabled.")
-				Return True
+				Return true
 			EndIf
 		EndIf
 	EndIf
@@ -285,7 +285,7 @@ Bool Function IsPlayerStealing(ObjectReference akLoot, PWAL:Looting:LootEffectSc
 	EndIf
 
 	If akEffectContext.PlayerFaction == None
-		Return True
+		Return true
 	EndIf
 
 	Return akCurrentOwner != akEffectContext.PlayerFaction

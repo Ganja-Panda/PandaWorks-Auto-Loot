@@ -78,17 +78,17 @@ Bool Function HandleInstallState()
 
 		VersionManager.PersistExpectedVersion()
 
-		bLastInstallCheckPassed = True
-		bLastInstallPerformed = True
+		bLastInstallCheckPassed = true
+		bLastInstallPerformed = true
 
 		LogInfo("InstallManager", "First-time setup completed successfully.")
-		Return True
+		Return true
 	EndIf
 
 	LogInfo("InstallManager", "No first-time install work required.")
-	bLastInstallCheckPassed = True
+	bLastInstallCheckPassed = true
 	bLastInstallPerformed = false
-	Return True
+	Return true
 EndFunction
 
 Bool Function IsFirstInstall()
@@ -143,7 +143,7 @@ Bool Function RunFirstTimeSetup()
 	EndIf
 
 	LogInfo("InstallManager", "First-time framework setup completed successfully.")
-	Return True
+	Return true
 EndFunction
 
 ; ==============================================================
@@ -159,7 +159,7 @@ Bool Function EnsureBootstrapState()
 	EndIf
 
 	LogDebug("InstallManager", "Bootstrap state validated.")
-	Return True
+	Return true
 EndFunction
 
 Bool Function ApplyInstallDefaults()
@@ -189,7 +189,7 @@ Bool Function ApplyInstallDefaults()
 	PWAL_GLOB_Settings_Destination.SetValueInt(1)
 	LogDebug("InstallManager", "Default applied: Destination = 1 (Player)")
 
-	Return True
+	Return true
 EndFunction
 
 Bool Function MarkInstalled()
@@ -203,7 +203,7 @@ Bool Function MarkInstalled()
 	PWAL_GLOB_System_Installed.SetValueInt(1)
 	LogDebug("InstallManager", "Install marker applied: PWAL_GLOB_System_Installed = 1")
 
-	Return True
+	Return true
 EndFunction
 
 Bool Function RunPostInstallValidation()
@@ -250,7 +250,7 @@ Bool Function RunPostInstallValidation()
 	EndIf
 
 	LogInfo("InstallManager", "Post-install validation completed successfully.")
-	Return True
+	Return true
 EndFunction
 
 Function MarkUninstalled()

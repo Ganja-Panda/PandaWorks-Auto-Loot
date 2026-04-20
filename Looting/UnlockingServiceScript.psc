@@ -50,7 +50,7 @@ Bool Function EnsureContainerAccess(ObjectReference akContainer, PWAL:Looting:Lo
 
 	If !akContainer.IsLocked()
 		LogDebug("UnlockingService", "EnsureContainerAccess: container already unlocked.")
-		Return True
+		Return true
 	EndIf
 
 	If !akEffectContext.CanAutoUnlock()
@@ -66,7 +66,7 @@ Bool Function EnsureContainerAccess(ObjectReference akContainer, PWAL:Looting:Lo
 	EndIf
 
 	LogDebug("UnlockingService", "EnsureContainerAccess succeeded: container unlocked.")
-	Return True
+	Return true
 EndFunction
 
 ; ==============================================================
@@ -207,7 +207,7 @@ Function FindDigipick(PWAL:Looting:LootEffectScript akEffectContext)
 		If akSearchLocations[iIndex] != None
 			If akSearchLocations[iIndex].GetItemCount(akEffectContext.Digipick as Form) > 0
 				LogDebug("UnlockingService", "Digipick found in " + akSearchLocations[iIndex])
-				akSearchLocations[iIndex].RemoveItem(akEffectContext.Digipick as Form, -1, True, akPlayerRef)
+				akSearchLocations[iIndex].RemoveItem(akEffectContext.Digipick as Form, -1, true, akPlayerRef)
 				Return
 			EndIf
 		EndIf
@@ -240,7 +240,7 @@ Function FindKey(Key akKey, PWAL:Looting:LootEffectScript akEffectContext)
 		If akSearchLocations[iIndex] != None
 			If akSearchLocations[iIndex].GetItemCount(akKey as Form) > 0
 				LogDebug("UnlockingService", "Key found in " + akSearchLocations[iIndex])
-				akSearchLocations[iIndex].RemoveItem(akKey as Form, -1, True, akPlayerRef)
+				akSearchLocations[iIndex].RemoveItem(akKey as Form, -1, true, akPlayerRef)
 				Return
 			EndIf
 		EndIf
@@ -289,10 +289,10 @@ Bool Function CanUnlock(ObjectReference akContainer, PWAL:Looting:LootEffectScri
 	aiLockLevels[3] = akEffectContext.LockLevel_Master.GetValueInt()
 
 	abCanUnlock = new Bool[4]
-	abCanUnlock[0] = True
-	abCanUnlock[1] = akEffectContext.Perk_CND_AdvancedLocksCheck.IsTrue(akPlayerRef, None)
-	abCanUnlock[2] = akEffectContext.Perk_CND_ExpertLocksCheck.IsTrue(akPlayerRef, None)
-	abCanUnlock[3] = akEffectContext.Perk_CND_MasterLocksCheck.IsTrue(akPlayerRef, None)
+	abCanUnlock[0] = true
+	abCanUnlock[1] = akEffectContext.Perk_CND_AdvancedLocksCheck.Istrue(akPlayerRef, None)
+	abCanUnlock[2] = akEffectContext.Perk_CND_ExpertLocksCheck.Istrue(akPlayerRef, None)
+	abCanUnlock[3] = akEffectContext.Perk_CND_MasterLocksCheck.Istrue(akPlayerRef, None)
 
 	iIndex = 0
 	While iIndex < aiLockLevels.Length

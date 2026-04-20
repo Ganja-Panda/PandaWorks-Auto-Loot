@@ -150,7 +150,7 @@ Bool Function RouteContainer(ObjectReference akContainer, PWAL:Looting:LootEffec
 
 	ContainerProcessor.ProcessContainer(akContainer, akEffectContext)
 	LogDebug("LootProcessor", "Container routed: " + akContainer)
-	Return True
+	Return true
 EndFunction
 
 Bool Function RouteCorpse(ObjectReference akCorpse, PWAL:Looting:LootEffectScript akEffectContext)
@@ -178,7 +178,7 @@ Bool Function RouteCorpse(ObjectReference akCorpse, PWAL:Looting:LootEffectScrip
 
 	CorpseProcessor.ProcessCorpse(akCorpse, akEffectContext)
 	LogDebug("LootProcessor", "Corpse routed: " + akCorpse)
-	Return True
+	Return true
 EndFunction
 
 Bool Function RouteActivator(ObjectReference akLoot, PWAL:Looting:LootEffectScript akEffectContext)
@@ -195,7 +195,7 @@ Bool Function RouteActivator(ObjectReference akLoot, PWAL:Looting:LootEffectScri
 
 	akLoot.Activate(akLooterRef, false)
 	LogDebug("LootProcessor", "Activator routed: " + akLoot)
-	Return True
+	Return true
 EndFunction
 
 Bool Function RouteSpellActivation(ObjectReference akLoot, PWAL:Looting:LootEffectScript akEffectContext)
@@ -223,7 +223,7 @@ Bool Function RouteSpellActivation(ObjectReference akLoot, PWAL:Looting:LootEffe
 
 	akLootSpell.RemoteCast(akPlayerRef, akPlayerActor, akLoot)
 	LogDebug("LootProcessor", "Spell activation routed: " + akLoot)
-	Return True
+	Return true
 EndFunction
 
 Bool Function RouteLooseLoot(ObjectReference akLoot, PWAL:Looting:LootEffectScript akEffectContext)
@@ -255,7 +255,7 @@ Bool Function RouteLooseLoot(ObjectReference akLoot, PWAL:Looting:LootEffectScri
 
 	akDestinationRef.AddItem(akLootForm, -1, false)
 	LogDebug("LootProcessor", "Loose loot transferred: " + akLoot)
-	Return True
+	Return true
 EndFunction
 
 ; ==============================================================

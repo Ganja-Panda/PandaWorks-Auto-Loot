@@ -183,7 +183,7 @@ Function ProcessFilteredCorpseItems(ObjectReference akCorpse, ObjectReference ak
 					Form akEntry = akCurrentList.GetAt(j)
 
 					If akEntry != None
-						akCorpse.RemoveItem(akEntry, -1, True, akDestinationRef)
+						akCorpse.RemoveItem(akEntry, -1, true, akDestinationRef)
 					EndIf
 
 					j += 1
@@ -249,7 +249,7 @@ Function HandleCorpseCleanup(ObjectReference akCorpse, PWAL:Looting:LootEffectSc
 		Return
 	EndIf
 
-	akCorpse.DisableNoWait(True)
+	akCorpse.DisableNoWait(true)
 
 	LogDebug("CorpseProcessor", "HandleCorpseCleanup disabled corpse.")
 EndFunction

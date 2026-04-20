@@ -47,7 +47,7 @@ Function Warn(String asSource, String asMessage)
 EndFunction
 
 Function Error(String asSource, String asMessage)
-	Log("ERROR", asSource, asMessage, True)
+	Log("ERROR", asSource, asMessage, true)
 EndFunction
 
 Function DebugLog(String asSource, String asMessage)
@@ -58,7 +58,7 @@ Function TraceDecision(String asSource, String asContext, Bool abDecision, Strin
 	String sDecision = "false"
 
 	If abDecision
-		sDecision = "TRUE"
+		sDecision = "true"
 	EndIf
 
 	Log("DEBUG", asSource, asContext + " => " + sDecision + " | " + NormalizeMessage(asReason), false)
@@ -74,7 +74,7 @@ EndFunction
 
 Bool Function IsLoggingEnabled()
 	If PWAL_GLOB_Utilities_Toggle_Logging == None
-		Return True
+		Return true
 	EndIf
 
 	Return (PWAL_GLOB_Utilities_Toggle_Logging.GetValueInt() != 0)
@@ -94,7 +94,7 @@ EndFunction
 
 Bool Function ShouldLog(Bool abForce)
 	If abForce
-		Return True
+		Return true
 	EndIf
 
 	Return IsLoggingEnabled()

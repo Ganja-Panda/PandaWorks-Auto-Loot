@@ -194,7 +194,7 @@ Bool Function IsValidDestinationCode(Int aiDestinationCode)
 		Return false
 	EndIf
 
-	Return True
+	Return true
 EndFunction
 
 GlobalVariable Function GetCategoryDestinationGlobal(Int aiCategoryCode)
