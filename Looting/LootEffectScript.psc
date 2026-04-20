@@ -32,7 +32,7 @@ ScriptName PWAL:Looting:LootEffectScript Extends ActiveMagicEffect Hidden
 ; ==============================================================
 ; Properties
 ; ==============================================================
-Group FrameworkServices_AutoFill
+Group FrameworkServices
 	PWAL:Core:LoggerScript Property Logger Auto Const Mandatory
 	PWAL:Core:RuntimeManagerScript Property RuntimeManager Auto Const Mandatory
 	PWAL:Looting:LootScannerScript Property LootScanner Auto Const Mandatory
