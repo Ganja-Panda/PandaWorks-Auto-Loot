@@ -61,6 +61,13 @@ Group EffectBehavior_FormFilter
 	Bool Property bIsMultipleKeyword = false Auto
 EndGroup
 
+Group WorldState_References
+	ObjectReference Property PlayerRef Auto Const Mandatory
+	ObjectReference Property LodgeSafeRef Auto Const Mandatory
+	ObjectReference Property PWAL_CONT_Inventory_Reference Auto Const Mandatory
+	ReferenceAlias Property PlayerHomeShip Auto Const Mandatory
+EndGroup
+
 Group Settings_Looting_AutoFill
 	GlobalVariable Property PWAL_GLOB_Settings_AllowLooting_HomeShip Auto Const
 	GlobalVariable Property PWAL_GLOB_Settings_AllowLooting_Lodge Auto Const
@@ -106,13 +113,6 @@ Group WorldState_Forms_AutoFill
 	Armor Property PWAL_ARMO_Skin_NOTPLAYABLE Auto Const Mandatory
 	FormList Property PWAL_FLST_Script_HumanRaces Auto Const Mandatory
 	GlobalVariable Property PWAL_GLOB_Utilities_Toggle_Logging Auto Const Mandatory
-EndGroup
-
-Group WorldState_References
-	ObjectReference Property PlayerRef Auto Const
-	ObjectReference Property LodgeSafeRef Auto Const
-	ObjectReference Property PWAL_CONT_Inventory_Reference Auto Const
-	ReferenceAlias Property PlayerHomeShip Auto Const Mandatory
 EndGroup
 
 Group RuntimeState
