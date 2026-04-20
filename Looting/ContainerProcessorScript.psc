@@ -107,7 +107,7 @@ Function ProcessTakeAllContainer(ObjectReference akContainer, ObjectReference ak
 	; transfer everything, using the hostile-steal flag as the transfer ownership mode.
 	bTransferOwnership = akEffectContext.IsStealingHostile()
 
-	akContainer.RemoveAllItems(akDestinationRef, False, bTransferOwnership)
+	akContainer.RemoveAllItems(akDestinationRef, false, bTransferOwnership)
 	LogDebug("ContainerProcessor", "ProcessTakeAllContainer transferred all contents.")
 EndFunction
 
@@ -192,12 +192,12 @@ Bool Function IsContainerAlreadyLooted(ObjectReference akContainer, PWAL:Looting
 	Keyword akLootedKeyword
 
 	If akContainer == None || akEffectContext == None
-		Return False
+		Return false
 	EndIf
 
 	akLootedKeyword = akEffectContext.GetContainerLootedKeyword()
 	If akLootedKeyword == None
-		Return False
+		Return false
 	EndIf
 
 	Return akContainer.HasKeyword(akLootedKeyword)

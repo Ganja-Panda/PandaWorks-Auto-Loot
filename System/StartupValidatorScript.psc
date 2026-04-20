@@ -46,7 +46,7 @@ GlobalVariable Property PWAL_GLOB_Settings_Destination Auto
 
 Int Property iLastErrorCount = 0 Auto Hidden
 Int Property iLastWarningCount = 0 Auto Hidden
-Bool Property bLastValidationPassed = False Auto Hidden
+Bool Property bLastValidationPassed = false Auto Hidden
 
 ; ==============================================================
 ; Public API
@@ -178,7 +178,7 @@ EndFunction
 Function ResetValidationState()
 	iLastErrorCount = 0
 	iLastWarningCount = 0
-	bLastValidationPassed = False
+	bLastValidationPassed = false
 EndFunction
 
 Function AddError(String asMessage)

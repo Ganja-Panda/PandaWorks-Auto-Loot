@@ -187,11 +187,11 @@ EndFunction
 
 Bool Function IsValidDestinationCode(Int aiDestinationCode)
 	If aiDestinationCode < DEST_PLAYER
-		Return False
+		Return false
 	EndIf
 
 	If aiDestinationCode > DEST_VOID
-		Return False
+		Return false
 	EndIf
 
 	Return True

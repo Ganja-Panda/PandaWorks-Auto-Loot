@@ -55,11 +55,11 @@ Int Property STATE_ERROR = 999 Auto Const
 ; Runtime State
 ; ==============================================================
 
-Bool Property bStartupInProgress = False Auto Hidden
-Bool Property bRuntimeInitialized = False Auto Hidden
-Bool Property bFrameworkReady = False Auto Hidden
-Bool Property bMigrationsRunning = False Auto Hidden
-Bool Property bUninstallPending = False Auto Hidden
+Bool Property bStartupInProgress = false Auto Hidden
+Bool Property bRuntimeInitialized = false Auto Hidden
+Bool Property bFrameworkReady = false Auto Hidden
+Bool Property bMigrationsRunning = false Auto Hidden
+Bool Property bUninstallPending = false Auto Hidden
 
 Int Property iCurrentFrameworkState = 0 Auto Hidden
 Int Property iLoopBudgetTotal = 100 Auto
@@ -93,7 +93,7 @@ Function OnFrameworkStart()
 	EndIf
 
 	bStartupInProgress = True
-	bFrameworkReady = False
+	bFrameworkReady = false
 	iCurrentFrameworkState = STATE_STARTING
 
 	LogInfo("RuntimeManager", "Framework startup beginning.")
@@ -106,7 +106,7 @@ Function OnFrameworkStart()
 
 	bRuntimeInitialized = True
 	bFrameworkReady = True
-	bStartupInProgress = False
+	bStartupInProgress = false
 	iCurrentFrameworkState = STATE_READY
 
 	LogInfo("RuntimeManager", "Framework startup complete. Runtime is ready.")
@@ -116,10 +116,10 @@ EndFunction
 Function ShutdownFramework()
 	LogInfo("RuntimeManager", "Framework shutdown requested.")
 
-	bFrameworkReady = False
-	bStartupInProgress = False
-	bRuntimeInitialized = False
-	bMigrationsRunning = False
+	bFrameworkReady = false
+	bStartupInProgress = false
+	bRuntimeInitialized = false
+	bMigrationsRunning = false
 	iCurrentFrameworkState = STATE_SHUTDOWN
 
 	iLoopBudgetLootingInUse = 0
@@ -131,11 +131,11 @@ EndFunction
 Function ResetRuntimeState()
 	LogWarn("RuntimeManager", "Runtime state reset requested.")
 
-	bStartupInProgress = False
-	bRuntimeInitialized = False
-	bFrameworkReady = False
-	bMigrationsRunning = False
-	bUninstallPending = False
+	bStartupInProgress = false
+	bRuntimeInitialized = false
+	bFrameworkReady = false
+	bMigrationsRunning = false
+	bUninstallPending = false
 	iCurrentFrameworkState = STATE_UNINITIALIZED
 
 	iLoopBudgetLootingInUse = 0
@@ -154,7 +154,7 @@ Function SetMigrationRunning(Bool abValue)
 	If abValue
 		LogInfo("RuntimeManager", "Migration runtime flag set to TRUE.")
 	Else
-		LogInfo("RuntimeManager", "Migration runtime flag set to FALSE.")
+		LogInfo("RuntimeManager", "Migration runtime flag set to false.")
 	EndIf
 EndFunction
 
@@ -198,28 +198,28 @@ EndFunction
 
 Bool Function CanRunLooting()
 	If !bRuntimeInitialized
-		LogDecision("CanRunLooting", False, "Runtime is not initialized.")
-		Return False
+		LogDecision("CanRunLooting", false, "Runtime is not initialized.")
+		Return false
 	EndIf
 
 	If !bFrameworkReady
-		LogDecision("CanRunLooting", False, "Framework is not ready.")
-		Return False
+		LogDecision("CanRunLooting", false, "Framework is not ready.")
+		Return false
 	EndIf
 
 	If bStartupInProgress
-		LogDecision("CanRunLooting", False, "Startup is in progress.")
-		Return False
+		LogDecision("CanRunLooting", false, "Startup is in progress.")
+		Return false
 	EndIf
 
 	If bMigrationsRunning
-		LogDecision("CanRunLooting", False, "Migration is currently running.")
-		Return False
+		LogDecision("CanRunLooting", false, "Migration is currently running.")
+		Return false
 	EndIf
 
 	If bUninstallPending
-		LogDecision("CanRunLooting", False, "Uninstall preparation is pending.")
-		Return False
+		LogDecision("CanRunLooting", false, "Uninstall preparation is pending.")
+		Return false
 	EndIf
 
 	LogDecision("CanRunLooting", True, "Framework state allows looting.")
@@ -334,19 +334,19 @@ Bool Function RunStartupFlow()
 	LogDebug("RuntimeManager", "RunStartupFlow entered.")
 
 	If !RunStartupValidationPhase()
-		Return False
+		Return false
 	EndIf
 
 	If !RunVersionCheckPhase()
-		Return False
+		Return false
 	EndIf
 
 	If !RunInstallCheckPhase()
-		Return False
+		Return false
 	EndIf
 
 	If !RunFinalizeStartupPhase()
-		Return False
+		Return false
 	EndIf
 
 	Return True
@@ -358,12 +358,12 @@ Bool Function RunStartupValidationPhase()
 
 	If StartupValidator == None
 		LogError("RuntimeManager", "Startup validation failed: StartupValidator property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	If !StartupValidator.ValidateStartup()
 		LogError("RuntimeManager", "Startup validation failed.")
-		Return False
+		Return false
 	EndIf
 
 	LogDebug("RuntimeManager", "Startup validation phase completed successfully.")
@@ -377,12 +377,12 @@ Bool Function RunVersionCheckPhase()
 
 	If VersionManager == None
 		LogError("RuntimeManager", "Version check failed: VersionManager property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	If !VersionManager.HandleVersionState()
 		LogError("RuntimeManager", "Version check failed.")
-		Return False
+		Return false
 	EndIf
 
 	LogDebug("RuntimeManager", "Version check phase completed successfully.")
@@ -396,12 +396,12 @@ Bool Function RunInstallCheckPhase()
 
 	If InstallManager == None
 		LogError("RuntimeManager", "Install check failed: InstallManager property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	If !InstallManager.HandleInstallState()
 		LogError("RuntimeManager", "Install check failed.")
-		Return False
+		Return false
 	EndIf
 
 	LogDebug("RuntimeManager", "Install check phase completed successfully.")
@@ -428,9 +428,9 @@ EndFunction
 ; ==============================================================
 
 Function FailStartup(String asReason)
-	bStartupInProgress = False
-	bFrameworkReady = False
-	bRuntimeInitialized = False
+	bStartupInProgress = false
+	bFrameworkReady = false
+	bRuntimeInitialized = false
 	iCurrentFrameworkState = STATE_ERROR
 
 	iLoopBudgetLootingInUse = 0
@@ -456,7 +456,7 @@ Function LogRuntimeSnapshot(String asContext)
 EndFunction
 
 Function LogDecision(String asContext, Bool abDecision, String asReason)
-	String sDecision = "FALSE"
+	String sDecision = "false"
 
 	If abDecision
 		sDecision = "TRUE"

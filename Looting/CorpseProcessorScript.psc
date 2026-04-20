@@ -71,7 +71,7 @@ Function ProcessCorpse(ObjectReference akCorpse, PWAL:Looting:LootEffectScript a
 	; without causing floating heads.
 	If akEffectContext.IsHumanRace(akCorpseActor)
 		akCorpseActor.UnequipAll()
-		akCorpseActor.EquipItem(akEffectContext.PWAL_ARMO_Skin_Naked_NOTPLAYABLE as Form, False, False)
+		akCorpseActor.EquipItem(akEffectContext.PWAL_ARMO_Skin_Naked_NOTPLAYABLE as Form, false, false)
 	EndIf
 
 	Utility.Wait(0.1)
@@ -111,7 +111,7 @@ Function ProcessTakeAllCorpse(ObjectReference akCorpse, ObjectReference akDestin
 
 	; Preserve old LZP behavior exactly for corpses:
 	; take-all corpse transfer does not use hostile ownership transfer.
-	akCorpse.RemoveAllItems(akDestinationRef, False, False)
+	akCorpse.RemoveAllItems(akDestinationRef, false, false)
 	LogDebug("CorpseProcessor", "ProcessTakeAllCorpse transferred all contents.")
 EndFunction
 
@@ -205,12 +205,12 @@ Bool Function IsCorpseAlreadyLooted(ObjectReference akCorpse, PWAL:Looting:LootE
 	Keyword akLootedKeyword
 
 	If akCorpse == None || akEffectContext == None
-		Return False
+		Return false
 	EndIf
 
 	akLootedKeyword = akEffectContext.GetCorpseLootedKeyword()
 	If akLootedKeyword == None
-		Return False
+		Return false
 	EndIf
 
 	Return akCorpse.HasKeyword(akLootedKeyword)

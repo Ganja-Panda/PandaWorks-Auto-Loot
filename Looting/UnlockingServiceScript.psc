@@ -40,12 +40,12 @@ EndGroup
 Bool Function EnsureContainerAccess(ObjectReference akContainer, PWAL:Looting:LootEffectScript akEffectContext)
 	If akContainer == None
 		LogWarn("UnlockingService", "EnsureContainerAccess aborted: akContainer is None.")
-		Return False
+		Return false
 	EndIf
 
 	If akEffectContext == None
 		LogWarn("UnlockingService", "EnsureContainerAccess aborted: akEffectContext is None.")
-		Return False
+		Return false
 	EndIf
 
 	If !akContainer.IsLocked()
@@ -55,14 +55,14 @@ Bool Function EnsureContainerAccess(ObjectReference akContainer, PWAL:Looting:Lo
 
 	If !akEffectContext.CanAutoUnlock()
 		LogDebug("UnlockingService", "EnsureContainerAccess denied: auto unlock is disabled.")
-		Return False
+		Return false
 	EndIf
 
 	TryUnlock(akContainer, akEffectContext)
 
 	If akContainer.IsLocked()
 		LogDebug("UnlockingService", "EnsureContainerAccess failed: container remains locked.")
-		Return False
+		Return false
 	EndIf
 
 	LogDebug("UnlockingService", "EnsureContainerAccess succeeded: container unlocked.")
@@ -166,8 +166,8 @@ Function HandleDigipickUnlock(ObjectReference akContainer, Bool bIsOwned, Bool b
 			akContainer.Unlock(bIsOwned)
 
 			If !akContainer.IsLocked()
-				Game.RewardPlayerXP(10, False)
-				akPlayerRef.RemoveItem(akEffectContext.Digipick as Form, 1, False, None)
+				Game.RewardPlayerXP(10, false)
+				akPlayerRef.RemoveItem(akEffectContext.Digipick as Form, 1, false, None)
 				LogDebug("UnlockingService", "Container unlocked with digipick.")
 			EndIf
 		Else
@@ -260,24 +260,24 @@ Bool Function CanUnlock(ObjectReference akContainer, PWAL:Looting:LootEffectScri
 	ObjectReference akPlayerRef
 
 	If akContainer == None || akEffectContext == None
-		Return False
+		Return false
 	EndIf
 
 	LogDebug("UnlockingService", "CanUnlock called with container: " + akContainer)
 
 	akPlayerRef = akEffectContext.GetPlayerRef()
 	If akPlayerRef == None
-		Return False
+		Return false
 	EndIf
 
 	If akEffectContext.LockLevel_Novice == None || akEffectContext.LockLevel_Advanced == None || akEffectContext.LockLevel_Expert == None || akEffectContext.LockLevel_Master == None
 		LogWarn("UnlockingService", "CanUnlock aborted: one or more lock level globals are not filled.")
-		Return False
+		Return false
 	EndIf
 
 	If akEffectContext.Perk_CND_AdvancedLocksCheck == None || akEffectContext.Perk_CND_ExpertLocksCheck == None || akEffectContext.Perk_CND_MasterLocksCheck == None
 		LogWarn("UnlockingService", "CanUnlock aborted: one or more lock condition forms are not filled.")
-		Return False
+		Return false
 	EndIf
 
 	iLockLevel = akContainer.GetLockLevel()
@@ -303,8 +303,8 @@ Bool Function CanUnlock(ObjectReference akContainer, PWAL:Looting:LootEffectScri
 		iIndex += 1
 	EndWhile
 
-	LogDebug("UnlockingService", "CanUnlock: False")
-	Return False
+	LogDebug("UnlockingService", "CanUnlock: false")
+	Return false
 EndFunction
 
 ; ==============================================================

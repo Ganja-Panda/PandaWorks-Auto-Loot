@@ -97,22 +97,22 @@ Bool Function ProcessSingleCandidate(ObjectReference akLoot, PWAL:Looting:LootEf
 	ObjectReference akResolvedLoot
 
 	If akLoot == None
-		Return False
+		Return false
 	EndIf
 
 	If akEffectContext == None
-		Return False
+		Return false
 	EndIf
 
 	akResolvedLoot = NormalizeCandidateRef(akLoot, akEffectContext)
 	If akResolvedLoot == None
 		LogDebug("LootProcessor", "ProcessSingleCandidate skipped: normalized loot ref is None.")
-		Return False
+		Return false
 	EndIf
 
 	If !LootValidation.CanProcessLoot(akResolvedLoot, akEffectContext)
 		LogDebug("LootProcessor", "Candidate rejected by LootValidation: " + akResolvedLoot)
-		Return False
+		Return false
 	EndIf
 
 	If akEffectContext.IsCorpseMode()
@@ -140,12 +140,12 @@ EndFunction
 
 Bool Function RouteContainer(ObjectReference akContainer, PWAL:Looting:LootEffectScript akEffectContext)
 	If akContainer == None
-		Return False
+		Return false
 	EndIf
 
 	If ContainerProcessor == None
 		LogWarn("LootProcessor", "RouteContainer failed: ContainerProcessor property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	ContainerProcessor.ProcessContainer(akContainer, akEffectContext)
@@ -157,23 +157,23 @@ Bool Function RouteCorpse(ObjectReference akCorpse, PWAL:Looting:LootEffectScrip
 	Actor akCorpseActor
 
 	If akCorpse == None
-		Return False
+		Return false
 	EndIf
 
 	akCorpseActor = akCorpse as Actor
 	If akCorpseActor == None
 		LogDebug("LootProcessor", "RouteCorpse skipped: candidate is not an Actor.")
-		Return False
+		Return false
 	EndIf
 
 	If !akCorpseActor.IsDead()
 		LogDebug("LootProcessor", "RouteCorpse skipped: actor is not dead.")
-		Return False
+		Return false
 	EndIf
 
 	If CorpseProcessor == None
 		LogWarn("LootProcessor", "RouteCorpse failed: CorpseProcessor property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	CorpseProcessor.ProcessCorpse(akCorpse, akEffectContext)
@@ -185,7 +185,7 @@ Bool Function RouteActivator(ObjectReference akLoot, PWAL:Looting:LootEffectScri
 	ObjectReference akLooterRef
 
 	If akLoot == None
-		Return False
+		Return false
 	EndIf
 
 	akLooterRef = akEffectContext.theLooterRef
@@ -193,7 +193,7 @@ Bool Function RouteActivator(ObjectReference akLoot, PWAL:Looting:LootEffectScri
 		akLooterRef = akEffectContext.GetPlayerRef()
 	EndIf
 
-	akLoot.Activate(akLooterRef, False)
+	akLoot.Activate(akLooterRef, false)
 	LogDebug("LootProcessor", "Activator routed: " + akLoot)
 	Return True
 EndFunction
@@ -204,13 +204,13 @@ Bool Function RouteSpellActivation(ObjectReference akLoot, PWAL:Looting:LootEffe
 	Actor akPlayerActor
 
 	If akLoot == None
-		Return False
+		Return false
 	EndIf
 
 	akLootSpell = akEffectContext.ActiveLootSpell
 	If akLootSpell == None
 		LogWarn("LootProcessor", "RouteSpellActivation failed: ActiveLootSpell is None.")
-		Return False
+		Return false
 	EndIf
 
 	akPlayerRef = akEffectContext.GetPlayerRef()
@@ -218,7 +218,7 @@ Bool Function RouteSpellActivation(ObjectReference akLoot, PWAL:Looting:LootEffe
 
 	If akPlayerRef == None || akPlayerActor == None
 		LogWarn("LootProcessor", "RouteSpellActivation failed: player reference or actor is None.")
-		Return False
+		Return false
 	EndIf
 
 	akLootSpell.RemoteCast(akPlayerRef, akPlayerActor, akLoot)
@@ -232,28 +232,28 @@ Bool Function RouteLooseLoot(ObjectReference akLoot, PWAL:Looting:LootEffectScri
 	Int iDestinationCode
 
 	If akLoot == None
-		Return False
+		Return false
 	EndIf
 
 	If DestinationResolver == None
 		LogWarn("LootProcessor", "RouteLooseLoot failed: DestinationResolver property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	iDestinationCode = DestinationResolver.ResolveDestinationCode()
 	akDestinationRef = DestinationResolver.ResolveDestinationRef(iDestinationCode)
 	If akDestinationRef == None
 		LogWarn("LootProcessor", "RouteLooseLoot failed: resolved destination ref is None.")
-		Return False
+		Return false
 	EndIf
 
 	akLootForm = akLoot as Form
 	If akLootForm == None
 		LogWarn("LootProcessor", "RouteLooseLoot failed: loot reference could not be cast to Form.")
-		Return False
+		Return false
 	EndIf
 
-	akDestinationRef.AddItem(akLootForm, -1, False)
+	akDestinationRef.AddItem(akLootForm, -1, false)
 	LogDebug("LootProcessor", "Loose loot transferred: " + akLoot)
 	Return True
 EndFunction

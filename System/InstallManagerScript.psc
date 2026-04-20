@@ -46,8 +46,8 @@ GlobalVariable Property PWAL_GLOB_Settings_Destination Auto
 ; Cached State
 ; ==============================================================
 
-Bool Property bLastInstallCheckPassed = False Auto Hidden
-Bool Property bLastInstallPerformed = False Auto Hidden
+Bool Property bLastInstallCheckPassed = false Auto Hidden
+Bool Property bLastInstallPerformed = false Auto Hidden
 
 ; ==============================================================
 ; Public API
@@ -58,14 +58,14 @@ Bool Function HandleInstallState()
 
 	If VersionManager == None
 		LogError("InstallManager", "HandleInstallState failed: VersionManager property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	LogInfo("InstallManager", "Install state check beginning.")
 
 	If !VersionManager.CheckVersionState()
 		LogError("InstallManager", "Install state check failed because VersionManager.CheckVersionState() returned false.")
-		Return False
+		Return false
 	EndIf
 
 	If VersionManager.GetLastVersionState() == VersionManager.VERSION_STATE_FIRST_INSTALL
@@ -73,7 +73,7 @@ Bool Function HandleInstallState()
 
 		If !RunFirstTimeSetup()
 			LogError("InstallManager", "First-time setup failed.")
-			Return False
+			Return false
 		EndIf
 
 		VersionManager.PersistExpectedVersion()
@@ -87,14 +87,14 @@ Bool Function HandleInstallState()
 
 	LogInfo("InstallManager", "No first-time install work required.")
 	bLastInstallCheckPassed = True
-	bLastInstallPerformed = False
+	bLastInstallPerformed = false
 	Return True
 EndFunction
 
 Bool Function IsFirstInstall()
 	If VersionManager == None
 		LogError("InstallManager", "IsFirstInstall failed: VersionManager property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	Return VersionManager.IsFirstInstall()
@@ -103,7 +103,7 @@ EndFunction
 Bool Function IsInstalled()
 	If PWAL_GLOB_System_Installed == None
 		LogError("InstallManager", "IsInstalled failed: PWAL_GLOB_System_Installed property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	Return (PWAL_GLOB_System_Installed.GetValueInt() != 0)
@@ -114,32 +114,32 @@ Bool Function RunFirstTimeSetup()
 
 	If VersionManager == None
 		LogError("InstallManager", "RunFirstTimeSetup failed: VersionManager property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	If RuntimeManager == None
 		LogError("InstallManager", "RunFirstTimeSetup failed: RuntimeManager property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	If !EnsureBootstrapState()
 		LogError("InstallManager", "RunFirstTimeSetup failed during EnsureBootstrapState().")
-		Return False
+		Return false
 	EndIf
 
 	If !ApplyInstallDefaults()
 		LogError("InstallManager", "RunFirstTimeSetup failed during ApplyInstallDefaults().")
-		Return False
+		Return false
 	EndIf
 
 	If !MarkInstalled()
 		LogError("InstallManager", "RunFirstTimeSetup failed during MarkInstalled().")
-		Return False
+		Return false
 	EndIf
 
 	If !RunPostInstallValidation()
 		LogError("InstallManager", "RunFirstTimeSetup failed during RunPostInstallValidation().")
-		Return False
+		Return false
 	EndIf
 
 	LogInfo("InstallManager", "First-time framework setup completed successfully.")
@@ -155,7 +155,7 @@ Bool Function EnsureBootstrapState()
 
 	If PWAL_GLOB_System_Installed == None
 		LogError("InstallManager", "EnsureBootstrapState failed: PWAL_GLOB_System_Installed property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	LogDebug("InstallManager", "Bootstrap state validated.")
@@ -167,17 +167,17 @@ Bool Function ApplyInstallDefaults()
 
 	If PWAL_GLOB_Settings_Container_TakeAll == None
 		LogError("InstallManager", "ApplyInstallDefaults failed: PWAL_GLOB_Settings_Container_TakeAll property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	If PWAL_GLOB_Settings_Corpses_TakeAll == None
 		LogError("InstallManager", "ApplyInstallDefaults failed: PWAL_GLOB_Settings_Corpses_TakeAll property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	If PWAL_GLOB_Settings_Destination == None
 		LogError("InstallManager", "ApplyInstallDefaults failed: PWAL_GLOB_Settings_Destination property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	PWAL_GLOB_Settings_Container_TakeAll.SetValueInt(1)
@@ -197,7 +197,7 @@ Bool Function MarkInstalled()
 
 	If PWAL_GLOB_System_Installed == None
 		LogError("InstallManager", "MarkInstalled failed: PWAL_GLOB_System_Installed property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	PWAL_GLOB_System_Installed.SetValueInt(1)
@@ -211,42 +211,42 @@ Bool Function RunPostInstallValidation()
 
 	If PWAL_GLOB_System_Installed == None
 		LogError("InstallManager", "RunPostInstallValidation failed: PWAL_GLOB_System_Installed property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	If PWAL_GLOB_Settings_Container_TakeAll == None
 		LogError("InstallManager", "RunPostInstallValidation failed: Container TakeAll global not filled.")
-		Return False
+		Return false
 	EndIf
 
 	If PWAL_GLOB_Settings_Corpses_TakeAll == None
 		LogError("InstallManager", "RunPostInstallValidation failed: Corpses TakeAll global not filled.")
-		Return False
+		Return false
 	EndIf
 
 	If PWAL_GLOB_Settings_Destination == None
 		LogError("InstallManager", "RunPostInstallValidation failed: Destination global not filled.")
-		Return False
+		Return false
 	EndIf
 
 	If PWAL_GLOB_System_Installed.GetValueInt() != 1
 		LogError("InstallManager", "Post-install validation failed: Installed marker not set correctly.")
-		Return False
+		Return false
 	EndIf
 
 	If PWAL_GLOB_Settings_Container_TakeAll.GetValueInt() != 1
 		LogError("InstallManager", "Post-install validation failed: Container TakeAll not set correctly.")
-		Return False
+		Return false
 	EndIf
 
 	If PWAL_GLOB_Settings_Corpses_TakeAll.GetValueInt() != 1
 		LogError("InstallManager", "Post-install validation failed: Corpses TakeAll not set correctly.")
-		Return False
+		Return false
 	EndIf
 
 	If PWAL_GLOB_Settings_Destination.GetValueInt() != 1
 		LogError("InstallManager", "Post-install validation failed: Destination not set correctly.")
-		Return False
+		Return false
 	EndIf
 
 	LogInfo("InstallManager", "Post-install validation completed successfully.")
@@ -276,8 +276,8 @@ Bool Function GetLastInstallPerformed()
 EndFunction
 
 Function ResetInstallState()
-	bLastInstallCheckPassed = False
-	bLastInstallPerformed = False
+	bLastInstallCheckPassed = false
+	bLastInstallPerformed = false
 EndFunction
 
 ; ==============================================================

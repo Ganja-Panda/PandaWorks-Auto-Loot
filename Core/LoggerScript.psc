@@ -39,11 +39,11 @@ String Property sLogPrefix = "[PWAL]" Auto
 ; ==============================================================
 
 Function Info(String asSource, String asMessage)
-	Log("INFO", asSource, asMessage, False)
+	Log("INFO", asSource, asMessage, false)
 EndFunction
 
 Function Warn(String asSource, String asMessage)
-	Log("WARN", asSource, asMessage, False)
+	Log("WARN", asSource, asMessage, false)
 EndFunction
 
 Function Error(String asSource, String asMessage)
@@ -51,21 +51,21 @@ Function Error(String asSource, String asMessage)
 EndFunction
 
 Function DebugLog(String asSource, String asMessage)
-	Log("DEBUG", asSource, asMessage, False)
+	Log("DEBUG", asSource, asMessage, false)
 EndFunction
 
 Function TraceDecision(String asSource, String asContext, Bool abDecision, String asReason)
-	String sDecision = "FALSE"
+	String sDecision = "false"
 
 	If abDecision
 		sDecision = "TRUE"
 	EndIf
 
-	Log("DEBUG", asSource, asContext + " => " + sDecision + " | " + NormalizeMessage(asReason), False)
+	Log("DEBUG", asSource, asContext + " => " + sDecision + " | " + NormalizeMessage(asReason), false)
 EndFunction
 
 Function TraceValue(String asSource, String asLabel, String asValue)
-	Log("DEBUG", asSource, NormalizeMessage(asLabel) + " = " + NormalizeMessage(asValue), False)
+	Log("DEBUG", asSource, NormalizeMessage(asLabel) + " = " + NormalizeMessage(asValue), false)
 EndFunction
 
 ; ==============================================================

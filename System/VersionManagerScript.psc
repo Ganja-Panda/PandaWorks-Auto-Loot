@@ -60,7 +60,7 @@ Int Property VERSION_STATE_INVALID = 99 Auto Const
 ; ==============================================================
 
 Int Property iLastVersionState = 0 Auto Hidden
-Bool Property bLastVersionCheckPassed = False Auto Hidden
+Bool Property bLastVersionCheckPassed = false Auto Hidden
 
 ; ==============================================================
 ; Public API
@@ -69,7 +69,7 @@ Bool Property bLastVersionCheckPassed = False Auto Hidden
 Bool Function HandleVersionState()
 	If !CheckVersionState()
 		LogError("VersionManager", "HandleVersionState failed during version check.")
-		Return False
+		Return false
 	EndIf
 
 	If iLastVersionState == VERSION_STATE_FIRST_INSTALL
@@ -95,7 +95,7 @@ Bool Function HandleVersionState()
 	EndIf
 
 	LogError("VersionManager", "HandleVersionState failed due to invalid version state.")
-	Return False
+	Return false
 EndFunction
 
 Bool Function CheckVersionState()
@@ -103,9 +103,9 @@ Bool Function CheckVersionState()
 
 	If !ValidateVersionGlobals()
 		iLastVersionState = VERSION_STATE_INVALID
-		bLastVersionCheckPassed = False
+		bLastVersionCheckPassed = false
 		LogError("VersionManager", "Version state check failed: required version globals are not filled.")
-		Return False
+		Return false
 	EndIf
 
 	LogInfo("VersionManager", "Version state check beginning.")
@@ -136,9 +136,9 @@ Bool Function CheckVersionState()
 	EndIf
 
 	iLastVersionState = VERSION_STATE_SCRIPT_OLDER_THAN_SAVE
-	bLastVersionCheckPassed = False
+	bLastVersionCheckPassed = false
 	LogError("VersionManager", "Installed version is newer than the current script version.")
-	Return False
+	Return false
 EndFunction
 
 Function PersistExpectedVersion()
@@ -164,7 +164,7 @@ EndFunction
 
 Function EndMigration()
 	If RuntimeManager
-		RuntimeManager.SetMigrationRunning(False)
+		RuntimeManager.SetMigrationRunning(false)
 	EndIf
 
 	LogInfo("VersionManager", "Migration runtime state cleared.")
@@ -172,15 +172,15 @@ EndFunction
 
 Bool Function IsFirstInstall()
 	If GetInstalledVersionMajor() != 0
-		Return False
+		Return false
 	EndIf
 
 	If GetInstalledVersionMinor() != 0
-		Return False
+		Return false
 	EndIf
 
 	If GetInstalledVersionPatch() != 0
-		Return False
+		Return false
 	EndIf
 
 	Return True
@@ -297,17 +297,17 @@ EndFunction
 Bool Function ValidateVersionGlobals()
 	If PWAL_GLOB_Version_Major == None
 		LogError("VersionManager", "PWAL_GLOB_Version_Major property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	If PWAL_GLOB_Version_Minor == None
 		LogError("VersionManager", "PWAL_GLOB_Version_Minor property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	If PWAL_GLOB_Version_Patch == None
 		LogError("VersionManager", "PWAL_GLOB_Version_Patch property is not filled.")
-		Return False
+		Return false
 	EndIf
 
 	Return True
@@ -315,7 +315,7 @@ EndFunction
 
 Function ResetVersionCheckState()
 	iLastVersionState = VERSION_STATE_UNKNOWN
-	bLastVersionCheckPassed = False
+	bLastVersionCheckPassed = false
 EndFunction
 
 String Function IntToString(Int aiValue)

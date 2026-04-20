@@ -52,66 +52,66 @@ Bool Function CanProcessLoot(ObjectReference akLoot, PWAL:Looting:LootEffectScri
 
 	If akLoot == None
 		LogDebug("LootValidation", "Rejected: loot reference is None.")
-		Return False
+		Return false
 	EndIf
 
 	If akEffectContext == None
 		LogDebug("LootValidation", "Rejected: effect context is None.")
-		Return False
+		Return false
 	EndIf
 
 	If !IsLootLoaded(akLoot)
 		LogDebug("LootValidation", "Rejected: loot is not loaded or is disabled/deleted.")
-		Return False
+		Return false
 	EndIf
 
 	If IsQuestLoot(akLoot)
 		LogDebug("LootValidation", "Rejected: loot is marked as a quest item.")
-		Return False
+		Return false
 	EndIf
 
 	If !IsPlayerAvailable()
 		LogDebug("LootValidation", "Rejected: player is not available.")
-		Return False
+		Return false
 	EndIf
 
 	If IsProtectedSourceRef(akLoot, akEffectContext)
 		LogDebug("LootValidation", "Rejected: protected source reference.")
-		Return False
+		Return false
 	EndIf
 
 	If IsAlreadyLooted(akLoot, akEffectContext)
 		LogDebug("LootValidation", "Rejected: target is already marked as looted.")
-		Return False
+		Return false
 	EndIf
 
 	If IsInBlockedOwnedArea(akEffectContext)
 		LogDebug("LootValidation", "Rejected: blocked owned area.")
-		Return False
+		Return false
 	EndIf
 
 	If akEffectContext.IsShipContainerMode() && !CanLootShipSpaceContent(akEffectContext)
 		LogDebug("LootValidation", "Rejected: ship looting is disabled.")
-		Return False
+		Return false
 	EndIf
 
 	akPlayerActor = akEffectContext.GetPlayerActor()
 	If akPlayerActor != None
 		If akPlayerActor.WouldBeStealing(akLoot) && !akEffectContext.CanSteal()
 			LogDebug("LootValidation", "Rejected: WouldBeStealing and stealing is not allowed.")
-			Return False
+			Return false
 		EndIf
 	EndIf
 
 	If IsPlayerStealing(akLoot, akEffectContext) && !akEffectContext.CanSteal()
 		LogDebug("LootValidation", "Rejected: IsPlayerStealing and stealing is not allowed.")
-		Return False
+		Return false
 	EndIf
 
 	If !akEffectContext.IsContainerMode() && !akEffectContext.IsCorpseMode()
 		If akLoot.GetContainer() != None
 			LogDebug("LootValidation", "Rejected: loot still belongs to a live container reference.")
-			Return False
+			Return false
 		EndIf
 	EndIf
 
@@ -129,12 +129,12 @@ EndFunction
 
 Bool Function CanLootShipSpaceContent(PWAL:Looting:LootEffectScript akEffectContext)
 	If akEffectContext == None
-		Return False
+		Return false
 	EndIf
 
 	If akEffectContext.PWAL_GLOB_Settings_AllowLooting_Ships == None
-		LogDebug("LootValidation", "CanLootShipSpaceContent: AllowLooting_Ships global missing. Defaulting to FALSE.")
-		Return False
+		LogDebug("LootValidation", "CanLootShipSpaceContent: AllowLooting_Ships global missing. Defaulting to false.")
+		Return false
 	EndIf
 
 	Return akEffectContext.PWAL_GLOB_Settings_AllowLooting_Ships.GetValueInt() != 0
@@ -142,7 +142,7 @@ EndFunction
 
 Bool Function IsQuestLoot(ObjectReference akLoot)
 	If akLoot == None
-		Return False
+		Return false
 	EndIf
 
 	Return akLoot.IsQuestItem()
@@ -150,7 +150,7 @@ EndFunction
 
 Bool Function IsProtectedSourceRef(ObjectReference akLoot, PWAL:Looting:LootEffectScript akEffectContext)
 	If akLoot == None || akEffectContext == None
-		Return False
+		Return false
 	EndIf
 
 	If akLoot == akEffectContext.GetLodgeSafeRef()
@@ -159,7 +159,7 @@ Bool Function IsProtectedSourceRef(ObjectReference akLoot, PWAL:Looting:LootEffe
 
 	; PWAL_CONT_Inventory_Reference is the  Ganja Panda's inventory container.
 	; It is not a protected home-ship source ref.
-	Return False
+	Return false
 EndFunction
 
 Bool Function IsAlreadyLooted(ObjectReference akLoot, PWAL:Looting:LootEffectScript akEffectContext)
@@ -167,7 +167,7 @@ Bool Function IsAlreadyLooted(ObjectReference akLoot, PWAL:Looting:LootEffectScr
 	Keyword akLootedKeyword
 
 	If akLoot == None || akEffectContext == None
-		Return False
+		Return false
 	EndIf
 
 	akActor = akLoot as Actor
@@ -178,7 +178,7 @@ Bool Function IsAlreadyLooted(ObjectReference akLoot, PWAL:Looting:LootEffectScr
 	EndIf
 
 	If akLootedKeyword == None
-		Return False
+		Return false
 	EndIf
 
 	Return akLoot.HasKeyword(akLootedKeyword)
@@ -201,7 +201,7 @@ Bool Function IsInBlockedOwnedArea(PWAL:Looting:LootEffectScript akEffectContext
 
 	akPlayerLocation = akPlayerRef.GetCurrentLocation()
 	If akPlayerLocation == None
-		Return False
+		Return false
 	EndIf
 
 	; Player homes
@@ -253,19 +253,19 @@ Bool Function IsInBlockedOwnedArea(PWAL:Looting:LootEffectScript akEffectContext
 		EndIf
 	EndIf
 
-	Return False
+	Return false
 EndFunction
 
 Bool Function IsOwned(ObjectReference akLoot, PWAL:Looting:LootEffectScript akEffectContext)
 	Actor akPlayerActor
 
 	If akLoot == None || akEffectContext == None
-		Return False
+		Return false
 	EndIf
 
 	akPlayerActor = akEffectContext.GetPlayerActor()
 	If akPlayerActor == None
-		Return False
+		Return false
 	EndIf
 
 	Return akPlayerActor.WouldBeStealing(akLoot) || IsPlayerStealing(akLoot, akEffectContext) || akLoot.HasOwner()
@@ -275,13 +275,13 @@ Bool Function IsPlayerStealing(ObjectReference akLoot, PWAL:Looting:LootEffectSc
 	Faction akCurrentOwner
 
 	If akLoot == None || akEffectContext == None
-		Return False
+		Return false
 	EndIf
 
 	akCurrentOwner = akLoot.GetFactionOwner()
 
 	If akCurrentOwner == None
-		Return False
+		Return false
 	EndIf
 
 	If akEffectContext.PlayerFaction == None
@@ -297,7 +297,7 @@ EndFunction
 
 Bool Function IsLootLoaded(ObjectReference akLoot)
 	If akLoot == None
-		Return False
+		Return false
 	EndIf
 
 	Return akLoot.Is3DLoaded() && !akLoot.IsDisabled() && !akLoot.IsDeleted()

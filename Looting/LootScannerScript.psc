@@ -201,7 +201,7 @@ Bool Function ArrayContainsRef(ObjectReference[] akArray, ObjectReference akRef)
 	Int iIndex
 
 	If akArray == None || akRef == None
-		Return False
+		Return false
 	EndIf
 
 	iIndex = 0
@@ -212,7 +212,7 @@ Bool Function ArrayContainsRef(ObjectReference[] akArray, ObjectReference akRef)
 		iIndex += 1
 	EndWhile
 
-	Return False
+	Return false
 EndFunction
 
 ObjectReference[] Function ResizeRefArray(ObjectReference[] akArray, Int aiNewSize)

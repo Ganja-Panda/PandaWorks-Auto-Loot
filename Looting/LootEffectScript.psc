@@ -49,16 +49,16 @@ Group EffectProfile_Optional
 EndGroup
 
 Group EffectBehavior_Method
-	Bool Property bIsActivator = False Auto
-	Bool Property bIsContainer = False Auto
-	Bool Property bLootDeadActor = False Auto
-	Bool Property bIsActivatedBySpell = False Auto
-	Bool Property bIsContainerSpace = False Auto
+	Bool Property bIsActivator = false Auto
+	Bool Property bIsContainer = false Auto
+	Bool Property bLootDeadActor = false Auto
+	Bool Property bIsActivatedBySpell = false Auto
+	Bool Property bIsContainerSpace = false Auto
 EndGroup
 
 Group EffectBehavior_FormFilter
-	Bool Property bIsKeyword = False Auto
-	Bool Property bIsMultipleKeyword = False Auto
+	Bool Property bIsKeyword = false Auto
+	Bool Property bIsMultipleKeyword = false Auto
 EndGroup
 
 Group Settings_Looting
@@ -104,9 +104,7 @@ EndGroup
 Group WorldState_Forms
 	Keyword Property SpaceshipInventoryContainer Auto Const
 	Armor Property PWAL_ARMO_Skin_Naked_NOTPLAYABLE Auto Const Mandatory
-	Race Property HumanRace Auto Const Mandatory
-	Race Property SFBGS001_HumanRace Auto Const Mandatory
-	Race Property SFBGS003_HumanRace Auto Const Mandatory
+	FormList Property PWAL_FLST_Script_HumanRaces Auto Const Mandatory
 	GlobalVariable Property PWAL_GLOB_Utilities_Toggle_Logging Auto Const Mandatory
 EndGroup
 
@@ -120,11 +118,11 @@ EndGroup
 Group RuntimeState
 	Int Property LootTimerID = 1 Auto
 	Float Property lootTimerDelay = 0.5 Auto 
-	Bool Property bIsLooting = False Auto Hidden
-	Bool Property bAllowStealing = False Auto
-	Bool Property bStealingIsHostile = False Auto
-	Bool Property bTakeAllContainer = False Auto
-	Bool Property bTakeAllCorpse = False Auto
+	Bool Property bIsLooting = false Auto Hidden
+	Bool Property bAllowStealing = false Auto
+	Bool Property bStealingIsHostile = false Auto
+	Bool Property bTakeAllContainer = false Auto
+	Bool Property bTakeAllCorpse = false Auto
 	ObjectReference Property theLooterRef Auto 
 EndGroup
 
@@ -141,7 +139,7 @@ Event OnEffectStart(ObjectReference akTarget, Actor akCaster, MagicEffect akBase
 
 	RefreshRuntimeSettings()
 	theLooterRef = ResolveLooterRef()
-	bIsLooting = False
+	bIsLooting = false
 
 	CancelTimer(LootTimerID)
 	StartTimer(lootTimerDelay, LootTimerID)
@@ -152,7 +150,7 @@ Event OnEffectFinish(ObjectReference akTarget, Actor akCaster, MagicEffect akBas
 
 	CancelTimer(LootTimerID)
 
-	bIsLooting = False
+	bIsLooting = false
 	theLooterRef = None
 EndEvent
 
@@ -170,7 +168,7 @@ Event OnTimer(Int aiTimerID)
 
 	bIsLooting = True
 	ExecuteLooting()
-	bIsLooting = False
+	bIsLooting = false
 
 	CancelTimer(LootTimerID)
 	StartTimer(lootTimerDelay, LootTimerID)
@@ -357,12 +355,20 @@ EndFunction
 
 Bool Function IsHumanRace(Actor akActor)
 	If akActor == None
-		Return False
+		Return false
+	EndIf
+
+	If PWAL_FLST_Script_HumanRaces == None
+		LogWarn("LootEffect", "IsHumanRace fallback: PWAL_FLST_Script_HumanRaces is not filled.")
+		Return false
 	EndIf
 
 	Race akRace = akActor.GetRace()
-
-	Return akRace == HumanRace || akRace == SFBGS001_HumanRace || akRace == SFBGS003_HumanRace
+	if akRace == None
+		Return false
+	EndIf
+	
+	Return PWAL_FLST_Script_HumanRaces.HasForm(akRace)
 EndFunction
 
 ; ==============================================================
@@ -371,7 +377,7 @@ EndFunction
 
 Bool Function GetGlobalBool(GlobalVariable akGlobal)
 	If akGlobal == None
-		Return False
+		Return false
 	EndIf
 
 	Return akGlobal.GetValueInt() > 0
