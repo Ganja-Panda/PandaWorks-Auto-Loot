@@ -68,8 +68,8 @@ Group Settings_Looting
 	GlobalVariable Property PWAL_GLOB_Settings_AllowLooting_PlayerHomes Auto Const
 	GlobalVariable Property PWAL_GLOB_Settings_AllowLooting_Ships Auto Const
 	GlobalVariable Property PWAL_GLOB_Settings_Container_TakeAll Auto Const
-	GlobalVariable Property PWAL_GLOB_Settings_Corpse_Remove Auto Const
-	GlobalVariable Property PWAL_GLOB_Settings_Corpse_TakeAll Auto Const
+	GlobalVariable Property PWAL_GLOB_Settings_Corpses_Remove Auto Const
+	GlobalVariable Property PWAL_GLOB_Settings_Corpses_TakeAll Auto Const
 	GlobalVariable Property PWAL_GLOB_Settings_SearchRadius Auto Const
 	GlobalVariable Property PWAL_GLOB_Settings_Stealing_Allowed Auto Const
 	GlobalVariable Property PWAL_GLOB_Settings_Stealing_IsHostile Auto Const
@@ -236,7 +236,7 @@ Function RefreshRuntimeSettings()
 	bAllowStealing = GetGlobalBool(PWAL_GLOB_Settings_Stealing_Allowed)
 	bStealingIsHostile = GetGlobalBool(PWAL_GLOB_Settings_Stealing_IsHostile)
 	bTakeAllContainer = GetGlobalBool(PWAL_GLOB_Settings_Container_TakeAll)
-	bTakeAllCorpse = GetGlobalBool(PWAL_GLOB_Settings_Corpse_TakeAll)
+	bTakeAllCorpse = GetGlobalBool(PWAL_GLOB_Settings_Corpses_TakeAll)
 EndFunction
 
 ; ==============================================================
@@ -296,7 +296,7 @@ Bool Function UseAutoUnlockSkillCheck()
 EndFunction
 
 Bool Function RemoveCorpsesEnabled()
-	Return GetGlobalBool(PWAL_GLOB_Settings_Corpse_Remove)
+	Return GetGlobalBool(PWAL_GLOB_Settings_Corpses_Remove)
 EndFunction
 
 Float Function GetRadius()

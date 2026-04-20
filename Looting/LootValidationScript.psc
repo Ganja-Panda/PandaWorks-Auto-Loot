@@ -38,8 +38,10 @@ ScriptName PWAL:Looting:LootValidationScript Extends Quest Hidden
 PWAL:Core:LoggerScript Property Logger Auto Const
 
 LocationAlias Property LodgeLocation Auto Const
+LocationAlias Property playerShipInterior Auto Const Mandatory
 Keyword Property LocTypeOutpost Auto Const
 Keyword Property LocTypePlayerHouse Auto Const
+
 
 ; ==============================================================
 ; Public API
