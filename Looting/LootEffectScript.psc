@@ -61,7 +61,7 @@ Group EffectBehavior_FormFilter
 	Bool Property bIsMultipleKeyword = false Auto
 EndGroup
 
-Group Settings_Looting
+Group Settings_Looting_AutoFill
 	GlobalVariable Property PWAL_GLOB_Settings_AllowLooting_HomeShip Auto Const
 	GlobalVariable Property PWAL_GLOB_Settings_AllowLooting_Lodge Auto Const
 	GlobalVariable Property PWAL_GLOB_Settings_AllowLooting_Outposts Auto Const
@@ -75,7 +75,7 @@ Group Settings_Looting
 	GlobalVariable Property PWAL_GLOB_Settings_Stealing_IsHostile Auto Const
 EndGroup
 
-Group Settings_Unlocking
+Group Settings_Unlocking_AutoFill
 	GlobalVariable Property PWAL_GLOB_Settings_Unlock_Auto Auto Const
 	GlobalVariable Property PWAL_GLOB_Settings_Unlock_SkillCheck Auto Const
 	GlobalVariable Property LockLevel_Advanced Auto Const
@@ -85,25 +85,25 @@ Group Settings_Unlocking
 	GlobalVariable Property LockLevel_Novice Auto Const
 	GlobalVariable Property LockLevel_RequiresKey Auto Const
 	Faction Property PlayerFaction Auto Const
-	ConditionForm Property Perk_CND_AdvancedLocksCheck Auto Const
-	ConditionForm Property Perk_CND_ExpertLocksCheck Auto Const
-	ConditionForm Property Perk_CND_MasterLocksCheck Auto Const
+	ConditionForm Property PWAL_CNDF_LockCheck_Advanced Auto Const
+	ConditionForm Property PWAL_CNDF_LockCheck_Expert Auto Const
+	ConditionForm Property PWAL_CNDF_LockCheck_Master Auto Const
 	MiscObject Property Digipick Auto Const
 EndGroup
 
-Group System_Lists
+Group System_Lists_AutoFill
 	FormList Property PWAL_FLST_System_Looting_Globals Auto Const
 	FormList Property PWAL_FLST_System_Looting_Lists Auto Const
 EndGroup
 
-Group WorldState_Tracking
+Group WorldState_Tracking_AutoFill
 	Keyword Property PWAL_KYWD_Container_Looted Auto Const Mandatory
 	Keyword Property PWAL_KYWD_Corpse_Looted Auto Const Mandatory
 EndGroup
 
-Group WorldState_Forms
+Group WorldState_Forms_AutoFill
 	Keyword Property SpaceshipInventoryContainer Auto Const
-	Armor Property PWAL_ARMO_Skin_Naked_NOTPLAYABLE Auto Const Mandatory
+	Armor Property PWAL_ARMO_Skin_NOTPLAYABLE Auto Const Mandatory
 	FormList Property PWAL_FLST_Script_HumanRaces Auto Const Mandatory
 	GlobalVariable Property PWAL_GLOB_Utilities_Toggle_Logging Auto Const Mandatory
 EndGroup
